@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Shiny เบื้องต้น - User Interface (UI): การออกแบบ front end</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Shiny เบื้องต้น</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./01-workshop.html" rel="" target="" aria-current="page">
+ <span class="menu-text">หน้าแรก</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">เกี่ยวกับเรา</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+    <a href="https://twitter.com/slphyx" rel="" title="Slphyx Twitter" class="quarto-navigation-tool px-1" aria-label="Slphyx Twitter"><i class="bi bi-twitter"></i></a>
+    <a href="https://github.com/slphyx" rel="" title="Slphyx GitHub" class="quarto-navigation-tool px-1" aria-label="Slphyx GitHub"><i class="bi bi-github"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-user-interface.html">User Interface (UI): การออกแบบ front end</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-workshop.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shiny เบื้องต้น</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">เริ่มต้น</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-user-interface.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">User Interface (UI): การออกแบบ front end</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-server-reactive-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Server: Reactive programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">การทำโมเดลและนำเสนอข้อมูล</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">การทำข้อมูลแผนที่และการแสดงผลขั้นสูง</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-theming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Theming &amp; styling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-deployment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">การนำแอปไปใช้งาน</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-guerry-app-all-code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Guerry app</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#พนฐาน" id="toc-พนฐาน" class="nav-link active" data-scroll-target="#พนฐาน">พื้นฐาน</a></li>
+  <li><a href="#ui-layout" id="toc-ui-layout" class="nav-link" data-scroll-target="#ui-layout">UI: Layout</a>
+  <ul class="collapse">
+  <li><a href="#fluidpage" id="toc-fluidpage" class="nav-link" data-scroll-target="#fluidpage">fluidPage</a></li>
+  <li><a href="#sec-dashboardPage" id="toc-sec-dashboardPage" class="nav-link" data-scroll-target="#sec-dashboardPage">dashboardPage</a></li>
+  <li><a href="#sec-dashboardPage3" id="toc-sec-dashboardPage3" class="nav-link" data-scroll-target="#sec-dashboardPage3">รูปภาพ</a></li>
+  <li><a href="#exercise-ui-layout" id="toc-exercise-ui-layout" class="nav-link" data-scroll-target="#exercise-ui-layout">Exercise: UI layout</a></li>
+  </ul></li>
+  <li><a href="#ui-inputs" id="toc-ui-inputs" class="nav-link" data-scroll-target="#ui-inputs">UI: Inputs</a>
+  <ul class="collapse">
+  <li><a href="#ui-inputs-โครงสรางทวไป" id="toc-ui-inputs-โครงสรางทวไป" class="nav-link" data-scroll-target="#ui-inputs-โครงสรางทวไป">UI Inputs: โครงสร้างทั่วไป</a></li>
+  <li><a href="#ui-inputs-logic" id="toc-ui-inputs-logic" class="nav-link" data-scroll-target="#ui-inputs-logic">UI Inputs: Logic</a></li>
+  <li><a href="#ui-inputs-ตวอยาง" id="toc-ui-inputs-ตวอยาง" class="nav-link" data-scroll-target="#ui-inputs-ตวอยาง">UI Inputs: ตัวอย่าง</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercise(s)</a></li>
+  </ul></li>
+  <li><a href="#ui-outputs" id="toc-ui-outputs" class="nav-link" data-scroll-target="#ui-outputs">UI: Outputs</a>
+  <ul class="collapse">
+  <li><a href="#output-แบบขอความหรอtext" id="toc-output-แบบขอความหรอtext" class="nav-link" data-scroll-target="#output-แบบขอความหรอtext">output แบบข้อความหรือText</a></li>
+  <li><a href="#output-แบบตาราง" id="toc-output-แบบตาราง" class="nav-link" data-scroll-target="#output-แบบตาราง">output แบบตาราง</a></li>
+  <li><a href="#output-แบบกราฟตางๆ" id="toc-output-แบบกราฟตางๆ" class="nav-link" data-scroll-target="#output-แบบกราฟตางๆ">output แบบกราฟต่างๆ</a></li>
+  <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1">Exercise(s)</a></li>
+  <li><a href="#ภาพรวมของ-output-functions" id="toc-ภาพรวมของ-output-functions" class="nav-link" data-scroll-target="#ภาพรวมของ-output-functions">ภาพรวมของ Output functions</a></li>
+  </ul></li>
+  <li><a href="#html-tag-functions" id="toc-html-tag-functions" class="nav-link" data-scroll-target="#html-tag-functions">HTML tag functions</a></li>
+  <li><a href="#guerry-app-แนะนำ-tab" id="toc-guerry-app-แนะนำ-tab" class="nav-link" data-scroll-target="#guerry-app-แนะนำ-tab">Guerry app: แนะนำ tab</a></li>
+  <li><a href="#สรป" id="toc-สรป" class="nav-link" data-scroll-target="#สรป">สรุป</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">User Interface (UI): การออกแบบ front end</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<ul>
+<li>จุดประสงค์:
+<ul>
+<li>เข้าใจตรรกะการทำงานของ user interfaces ใน Shiny</li>
+<li>เรียนรู้ที่จะสร้าง UIs โดยใช้ layouts, inputs และ outputs ต่าง ๆ</li>
+<li>คุ้นเคยกับ UI functions อย่างเช่น <code>fluidPage()</code>, <code>dashboardPage()</code>, <code>menuItem()</code>, <code>tabItems()</code>, <code>tabsetPanel()</code> และ <code>tabPanel()</code></li>
+<li>เข้าใจ UI ของ Guerry app</li>
+</ul></li>
+</ul>
+<p>Sources: <span class="citation" data-cites="wickham2021mastering">@wickham2021mastering [Ch. 2]</span></p>
+<section id="พนฐาน" class="level2">
+<h2 class="anchored" data-anchor-id="พนฐาน">พื้นฐาน</h2>
+<ul>
+<li>พยามยามแยกส่วน Shiny code ที่สร้าง UI (<em>front end</em>) กับส่วนการทำงานหลังบ้าน (<em>server/back end</em>).</li>
+<li>ตอนนี้เราโฟกัสไปที่ตัวหน้าตาหรือ front end และก็ดูพวก inputs และ outputs
+<ul>
+<li>อย่าเพิ่งรวมตัวหรือต่อ inputs กับ outputs เข้าด้วยกัน</li>
+</ul></li>
+<li>ให้โฟกัสกับตัวองค์ประกอบหรือ components พื้นฐาน (ที่มากับตัว Shiny package) ส่วน components อิ่นๆ สามารถดูได้ที่ <a href="https://github.com/nanxstats/awesome-shiny-extensions">awesome shiny extenstions</a></li>
+</ul>
+</section>
+<section id="ui-layout" class="level2">
+<h2 class="anchored" data-anchor-id="ui-layout">UI: Layout</h2>
+<ul>
+<li>Shiny app โดยทั่วไปจะประกอบด้วย <code>ui</code>, <code>server</code> และ <code>shinyApp(ui=ui, server = server)</code>
+<ul>
+<li><code>ui &lt;- function()</code>: เป็น function ที่ใช้สำหรับสร้าง UI
+<ul>
+<li>UI แสดง inputs และ outputs ต่างๆ</li>
+</ul></li>
+<li>Shiny provides different functions that can be used to create basic layouts</li>
+</ul></li>
+<li><code>fluidPage()</code> ใช้สำหรับสร้าง classic fluid layout</li>
+<li><code>dashboardPage()</code> สำหรับสร้าง dashboard layout (ซึ่ง Guerry dashboard ก็ใช้ function นึ้)</li>
+</ul>
+<section id="fluidpage" class="level3">
+<h3 class="anchored" data-anchor-id="fluidpage">fluidPage</h3>
+<ul>
+<li><code>fluidPage()</code>: เป็น layout พื้นฐาน
+<ul>
+<li>สามารถที่จะแสดงผลโดยปรับเปลี่ยนขนาดอัตโนมัติตามขนาดของ web browser (อย่างเช่น smartphone)</li>
+<li>layout ประกอบด้วยแถวที่แบ่งเป็น columns
+<ul>
+<li>rows เป็นตัวที่ทำให้ตัวองค์ประกอบต่างๆมันแสดงผลในบรรทัดเดียวกัน</li>
+<li>columns เป็นตัวกำหนดว่าในแนวขวางเจ้าองค์ประกอบนั้นๆมันจะกว้างเท่าไหร่ (ภายในตารางกว้าง <strong>12 หน่วย</strong>)</li>
+</ul></li>
+</ul></li>
+<li>ด้านล่างเป็น UI กับ title panel และ sidebar panel
+<ul>
+<li><code>titlePanel()</code> และ <code>sidebarLayout()</code> สำหรับสร้าง Shiny app/layout พื้นฐานที่มี sidebar</li>
+<li><code>sidebarLayout()</code> จะมี 2 functions
+<ul>
+<li><code>sidebarPanel()</code>: เพื่อแสดงเนื้อหาใน sidebar</li>
+<li><code>mainPanel()</code>: เพื่อแสดงเนื้อหา main panel</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li><code>fluidRow()</code> และ <code>column()</code>: เพือแบ่ง ui เป็น rows/columns</li>
+</ul></li>
+<li><strong>ทดลอง code ด้านล่างนี้</strong></li>
+</ul>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-2_d1b2fdca4fe460938ee045cc4b587972">
+<details>
+<summary>Code: Creating a simple UI</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"This is the title panel"</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>( <span class="st">"Title: Sidebar panel"</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(<span class="st">"Title: Main panel"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">fluidRow</span>(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">column</span>(<span class="at">width =</span> <span class="dv">4</span>,<span class="st">"Column 1: Description here"</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">column</span>(<span class="at">width =</span> <span class="dv">4</span>, <span class="st">"Column 2: Model summary"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                ,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                <span class="fu">column</span>(<span class="at">width =</span> <span class="dv">3</span>, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">offset =</span> <span class="dv">1</span>, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Column 3: Model visualization"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  )))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output){}</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui=</span>ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li>เปลี่ยน <code>sidebarLayout(position = "right",...)</code> เพื่อขยับ sidebar อยู่ด้านขวา</li>
+<li><code>navbarPage()</code>: สำหรับสร้าง UI <a href="http://shiny.rstudio.com/gallery/navbar-example.html">multi-page user-interface</a> ที่มี navigation bar</li>
+<li>บางคริั้งใส่ขอบก็ช่วย..</li>
+</ul>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-2-3_b28dfd90040eb2badd296da19fb07d4e">
+<details>
+<summary>Code: Adding borders for better understanding of UI</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"This is the title panel"</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>( <span class="st">"Title: Sidebar panel"</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(<span class="st">"Title: Main panel"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">fluidRow</span>(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                <span class="fu">column</span>(<span class="at">style=</span><span class="st">'border: 1px solid black'</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">width =</span> <span class="dv">4</span>,<span class="st">"</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st">                       Column 1: Description here"</span>),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                <span class="fu">column</span>(<span class="at">style=</span><span class="st">'border: 1px solid black'</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                       <span class="at">width =</span> <span class="dv">4</span>, <span class="st">"Column 2: Model summary"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                ,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                <span class="fu">column</span>(<span class="at">style=</span><span class="st">'border: 1px solid black'</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                       <span class="at">width =</span> <span class="dv">3</span>, </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                       <span class="at">offset =</span> <span class="dv">1</span>, </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Column 3: Model visualization"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    )))</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output){}</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui=</span>ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="การสราง-panels-และ-tabs" class="level4">
+<h4 class="anchored" data-anchor-id="การสราง-panels-และ-tabs">การสร้าง panels และ tabs</h4>
+<ul>
+<li><code>tabsetPanel()</code> + <code>tabPanel()</code>
+<ul>
+<li>สำหรับ sidebar layout แต่แบ่ง main panel เป็น tabs</li>
+<li>ผู้ใช้สามารถที่จะสลับไปมาระหว่าง tabs ได้</li>
+</ul></li>
+</ul>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-3_88a411635210e546753eaa38ade0ebd9">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"This is the title panel"</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>( <span class="st">"This is the sidebar panel"</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tabsetPanel</span>(<span class="at">type =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">tabPanel</span>(<span class="st">"3d Frequency Plot"</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Tab 1: plot here"</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">tabPanel</span>(<span class="st">"Histogram"</span>, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Tab 2: another plot here"</span>),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">tabPanel</span>(<span class="st">"Model Summary"</span>, </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">h4</span>(<span class="st">"Tab 3: estimation results here"</span>)),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">tabPanel</span>(<span class="st">"Data Summary"</span>, </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">h4</span>(<span class="st">"Tab 4: Variable summaries"</span>))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      ))))</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output){}</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shinyApp</span>(<span class="at">ui=</span>ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="sec-dashboardPage" class="level3">
+<h3 class="anchored" data-anchor-id="sec-dashboardPage">dashboardPage</h3>
+<ul>
+<li><code>dashboardPage()</code>: สำหรับสร้าง dashboard interface
+<ul>
+<li>function นี้จะมีอยู่ใน packages <code>shinydashboard</code> และ <code>bs4Dash</code> (ใช้ <code>bs4Dash</code><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>!)</li>
+<li><code>dashboardHeader()</code>: สร้างส่วนหัว (header) ของ dashboard</li>
+<li><code>dashboardSidebar()</code>: สร้าง dashboard sidebar
+<ul>
+<li>sidebar โดยปกติจะประกอบด้วย sidebarMenu, หรืออาจเป็น sidebarSearchForm, หรือ Shiny inputs อื่นๆ</li>
+</ul></li>
+<li><code>dashboardBody()</code>: สำหรับสร้าง main body ที่อาจประกอบด้วย boxes หรือ tabItems</li>
+</ul></li>
+</ul>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-4_969272109aadae2a7f7d422665a87323">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bs4Dash)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># UI ----</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(<span class="at">title =</span> <span class="st">"The Guerry Dashboard"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Header ----</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="fu">dashboardHeader</span>(),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Sidebar ----</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> <span class="fu">dashboardSidebar</span>(),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Body ----</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">body =</span> <span class="fu">dashboardBody</span>()</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Server ----</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {}</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="sec-dashboardPage2" class="level4">
+<h4 class="anchored" data-anchor-id="sec-dashboardPage2">ใส่พวก items และ tabs</h4>
+<ul>
+<li><code>?sidebarMenu()</code>: สร้าง sidebarMenu ภายใน dashboardSidebar
+<ul>
+<li><code>menuItem(tabName = "...", text = "...", icon = icon("table"))</code>: ใส่หนึ่ง item ใน sidebarMenu</li>
+</ul></li>
+<li><code>tabItems()</code>: สร้างตัว container สำหรับ tab items
+<ul>
+<li><code>tabItem(tabName = "insp", ...)</code>: สร้าง tab ใส่ใน tab items container</li>
+<li>สามารถใช้ร่วมกับ <code>fluidRow()</code> และ <code>column()</code></li>
+<li>เชื่อมต่อกับผ่านชื่อ <code>tabName</code></li>
+</ul></li>
+</ul>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-5_a094df6b51c9032708e8d021a0a985ad">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bs4Dash)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># UI ----</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(<span class="at">title =</span> <span class="st">"The Guerry Dashboard"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Header ----</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="fu">dashboardHeader</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Title here"</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Sidebar ----</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> <span class="fu">dashboardSidebar</span>(</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarMenu</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="at">tabName =</span> <span class="st">"tab_table"</span>, </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">text =</span> <span class="st">"Table data"</span>, </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"table"</span>))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Body ----</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">body =</span> <span class="fu">dashboardBody</span>(</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabItems</span>( <span class="co"># start tabItems</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tabItem</span>(</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">tabName =</span> <span class="st">"tab_table"</span>,</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">hr</span>(), <span class="co"># add separation line</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Here we will put a table"</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    ) <span class="co"># end tabItems</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>) <span class="co"># End UI</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Server ----</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {}</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="sec-dashboardPage3" class="level3">
+<h3 class="anchored" data-anchor-id="sec-dashboardPage3">รูปภาพ</h3>
+<ul>
+<li><code>img()</code> function สำหรับใส่ image
+<ul>
+<li><code>img(src = "http://.../img-2.jpg", height = 35, width = 35)</code>: Load image จาก website หรือ folder</li>
+</ul></li>
+<li>เก็บ image(s) ไว้ที่เครื่อง
+<ul>
+<li><code>www</code> subfolder สำหรับเก็บข้อมูล(images, data etc.) ไว้ใช้กับapp</li>
+<li>ถ้า working directory = app directory กก็สามารถสร้างได้ด้วยคำสั่ง: <code>dir.create("www")</code></li>
+<li><strong>ภาพที่เก็บไว้ที่ <code>www</code> สามรถเรียกใช้ได้เลยโดยไม่ต้องพิมพ์ชื่อ<code>www</code>นำหน้าชื่อไฟล์</strong>
+<ul>
+<li>e.g., <code>img(src = "guerry.jpg", width = "100%")</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-6_6b37a1ec8c71d2b107d7f10f363f4468">
+<details>
+<summary>Code: Adding images</summary>
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"The Guerry Dashboard"</span>,</span>
+<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Header ----</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="fu">dashboardHeader</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-6-6" class="code-annotation-target"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">span</span>(<span class="at">style =</span> <span class="st">"display: inline-block; width: 100%;"</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-6-7" class="code-annotation-target"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">a</span>(</span>
+<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">"logo"</span>,</span>
+<span id="annotated-cell-6-9"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">href =</span> <span class="st">"https://ammnet.org/"</span>,</span>
+<span id="annotated-cell-6-10"><a href="#annotated-cell-6-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"ammnet.png"</span>, <span class="at">style =</span> <span class="st">"height: 1.8em;"</span>)</span>
+<span id="annotated-cell-6-11"><a href="#annotated-cell-6-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-6-12" class="code-annotation-target"><a href="#annotated-cell-6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">tagList</span>(</span>
+<span id="annotated-cell-6-13"><a href="#annotated-cell-6-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"ammnet.png"</span>, <span class="at">width =</span> <span class="dv">35</span>, <span class="at">height =</span> <span class="dv">35</span>),</span>
+<span id="annotated-cell-6-14"><a href="#annotated-cell-6-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">span</span>(<span class="st">"The Guerry Dashboard"</span>, <span class="at">class =</span> <span class="st">"brand-text"</span>)</span>
+<span id="annotated-cell-6-15"><a href="#annotated-cell-6-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-6-16"><a href="#annotated-cell-6-16" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="annotated-cell-6-17"><a href="#annotated-cell-6-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="annotated-cell-6-18"><a href="#annotated-cell-6-18" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Sidebar ----</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-6-19" class="code-annotation-target"><a href="#annotated-cell-6-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> <span class="fu">dashboardSidebar</span>(</span>
+<span id="annotated-cell-6-20"><a href="#annotated-cell-6-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarMenu</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-6-21" class="code-annotation-target"><a href="#annotated-cell-6-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="at">tabName =</span> <span class="st">"tab_image"</span>,</span>
+<span id="annotated-cell-6-22"><a href="#annotated-cell-6-22" aria-hidden="true" tabindex="-1"></a>               <span class="at">text =</span> <span class="st">"Image section"</span>, </span>
+<span id="annotated-cell-6-23"><a href="#annotated-cell-6-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"image"</span>))</span>
+<span id="annotated-cell-6-24"><a href="#annotated-cell-6-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-6-25"><a href="#annotated-cell-6-25" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="annotated-cell-6-26"><a href="#annotated-cell-6-26" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Body ----</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="8" onclick="event.preventDefault();">8</a><span id="annotated-cell-6-27" class="code-annotation-target"><a href="#annotated-cell-6-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">body =</span> <span class="fu">dashboardBody</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="9" onclick="event.preventDefault();">9</a><span id="annotated-cell-6-28" class="code-annotation-target"><a href="#annotated-cell-6-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabItems</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="10" onclick="event.preventDefault();">10</a><span id="annotated-cell-6-29" class="code-annotation-target"><a href="#annotated-cell-6-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tabItem</span>(<span class="st">"tab_image"</span>,</span>
+<span id="annotated-cell-6-30"><a href="#annotated-cell-6-30" aria-hidden="true" tabindex="-1"></a>              <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg"</span>, <span class="at">width =</span> <span class="dv">358</span>, <span class="at">height =</span> <span class="dv">476</span>)</span>
+<span id="annotated-cell-6-31"><a href="#annotated-cell-6-31" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="annotated-cell-6-32"><a href="#annotated-cell-6-32" aria-hidden="true" tabindex="-1"></a>    ) <span class="co"># end tabItems</span></span>
+<span id="annotated-cell-6-33"><a href="#annotated-cell-6-33" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-6-34"><a href="#annotated-cell-6-34" aria-hidden="true" tabindex="-1"></a>) <span class="co"># End UI</span></span>
+<span id="annotated-cell-6-35"><a href="#annotated-cell-6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-6-36"><a href="#annotated-cell-6-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Server ----</span></span>
+<span id="annotated-cell-6-37"><a href="#annotated-cell-6-37" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="11" onclick="event.preventDefault();">11</a><span id="annotated-cell-6-38" class="code-annotation-target"><a href="#annotated-cell-6-38" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {}</span>
+<span id="annotated-cell-6-39"><a href="#annotated-cell-6-39" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="12" onclick="event.preventDefault();">12</a><span id="annotated-cell-6-40" class="code-annotation-target"><a href="#annotated-cell-6-40" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1"><code>dashboardPage()</code>: function หลักสำหรับสร้าง dashboard page layout ใน Shiny.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="2"><code>dashboardHeader()</code>: Function สำหรับ header ของ dashboard.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="3"><code>span()</code>: Function เพื่อทำ HTML span กับตัว element โดยใช้ style attribute ที่ควบคุมการแสดงผลของตัว element นั้นๆ</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="7" data-code-annotation="4"><code>a()</code>: Function สำหรับทำ hyperlink element (“a” HTML tag) กับ specified class, href attribute (URL), และ nested img (image) element</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="12" data-code-annotation="5"><code>tagList()</code>: Function สำหรับทำ HTML list ในที่นี้มันถูกใช้เพื่อรวม title เข้าด้วยกัน</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="19" data-code-annotation="6"><code>dashboardSidebar()</code>: Function สำหรับสร้าง sidebar ของ dashboard.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="21" data-code-annotation="7"><code>menuItem()</code>: Function เพื่อเพิ่ม item เข้าไปใน sidebar menu</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="27" data-code-annotation="8"><code>dashboardBody()</code>: Function เพื่อสร้างตัว body ของ dashboard.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="9">9</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="28" data-code-annotation="9"><code>tabItems()</code>: Function สร้างส่วน tabbed content ตัว arguments คือคู่ของ tab names กับตัวเนื้อหา</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="10">10</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="29" data-code-annotation="10"><code>tabItem()</code>: Function สำหรับสร้าง tab item ตัว arguments คือคู่ของ tab names กับตัวเนื้อหา</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="11">11</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="38" data-code-annotation="11"><code>server</code>: สำหรับใส่การทำงานส่วนของ server ในกรณีนี้ว่างไว้ก่อน</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="12">12</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="40" data-code-annotation="12"><code>shinyApp(ui, server)</code>: function หลักสำหรับสร้าง Shiny app ซึ่งมันต้องการส่วน UI กับส่วน server ตามที่ได้เขียนcodeไว้</span>
+</dd>
+</dl>
+</div>
+</div>
+<section id="ใส-images" class="level4">
+<h4 class="anchored" data-anchor-id="ใส-images">ใส่ images</h4>
+<ul>
+<li>ตัวอย่างสำหรับใส่ภาพ</li>
+</ul>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-6-2_f757493078c2dc80ad362abf60590815">
+<details>
+<summary>Code: Adding images</summary>
+<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
+<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"The Guerry Dashboard"</span>,</span>
+<span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Header ----</span></span>
+<span id="annotated-cell-7-5"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="fu">dashboardHeader</span>(</span>
+<span id="annotated-cell-7-6"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">span</span>(<span class="at">style =</span> <span class="st">"display: inline-block; width: 100%;"</span>),</span>
+<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">a</span>(</span>
+<span id="annotated-cell-7-8"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">"logo"</span>,</span>
+<span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">href =</span> <span class="st">"https://ammnet.org/"</span>,</span>
+<span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"ammnet.png"</span>, <span class="at">style =</span> <span class="st">"height: 1.8em;"</span>)</span>
+<span id="annotated-cell-7-11"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="annotated-cell-7-12"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">tagList</span>(</span>
+<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"ammnet.png"</span>, <span class="at">width =</span> <span class="dv">35</span>, <span class="at">height =</span> <span class="dv">35</span>),</span>
+<span id="annotated-cell-7-14"><a href="#annotated-cell-7-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">span</span>(<span class="st">"The Guerry Dashboard"</span>, <span class="at">class =</span> <span class="st">"brand-text"</span>)</span>
+<span id="annotated-cell-7-15"><a href="#annotated-cell-7-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-7-16"><a href="#annotated-cell-7-16" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="annotated-cell-7-17"><a href="#annotated-cell-7-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="annotated-cell-7-18"><a href="#annotated-cell-7-18" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Sidebar ----</span></span>
+<span id="annotated-cell-7-19"><a href="#annotated-cell-7-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> <span class="fu">dashboardSidebar</span>(</span>
+<span id="annotated-cell-7-20"><a href="#annotated-cell-7-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarMenu</span>(</span>
+<span id="annotated-cell-7-21"><a href="#annotated-cell-7-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="at">tabName =</span> <span class="st">"tab_image"</span>,</span>
+<span id="annotated-cell-7-22"><a href="#annotated-cell-7-22" aria-hidden="true" tabindex="-1"></a>               <span class="at">text =</span> <span class="st">"Image section"</span>, </span>
+<span id="annotated-cell-7-23"><a href="#annotated-cell-7-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"image"</span>))</span>
+<span id="annotated-cell-7-24"><a href="#annotated-cell-7-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-7-25"><a href="#annotated-cell-7-25" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="annotated-cell-7-26"><a href="#annotated-cell-7-26" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Body ----</span></span>
+<span id="annotated-cell-7-27"><a href="#annotated-cell-7-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">body =</span> <span class="fu">dashboardBody</span>(</span>
+<span id="annotated-cell-7-28"><a href="#annotated-cell-7-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabItems</span>( </span>
+<span id="annotated-cell-7-29"><a href="#annotated-cell-7-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tabItem</span>(<span class="st">"tab_image"</span>,</span>
+<span id="annotated-cell-7-30"><a href="#annotated-cell-7-30" aria-hidden="true" tabindex="-1"></a>              <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg"</span>, <span class="at">width =</span> <span class="dv">358</span>, <span class="at">height =</span> <span class="dv">476</span>),</span>
+<span id="annotated-cell-7-31"><a href="#annotated-cell-7-31" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"https://journals.openedition.org/belgeo/docannexe/image/11893/img-1.jpg"</span>, <span class="at">width =</span> <span class="dv">358</span>, <span class="at">height =</span> <span class="dv">476</span>)</span>
+<span id="annotated-cell-7-32"><a href="#annotated-cell-7-32" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="annotated-cell-7-33"><a href="#annotated-cell-7-33" aria-hidden="true" tabindex="-1"></a>    ) <span class="co"># end tabItems</span></span>
+<span id="annotated-cell-7-34"><a href="#annotated-cell-7-34" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-7-35"><a href="#annotated-cell-7-35" aria-hidden="true" tabindex="-1"></a>) <span class="co"># End UI</span></span>
+<span id="annotated-cell-7-36"><a href="#annotated-cell-7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-37"><a href="#annotated-cell-7-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Server ----</span></span>
+<span id="annotated-cell-7-38"><a href="#annotated-cell-7-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-39"><a href="#annotated-cell-7-39" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {}</span>
+<span id="annotated-cell-7-40"><a href="#annotated-cell-7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-41"><a href="#annotated-cell-7-41" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="exercise-ui-layout" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-ui-layout">Exercise: UI layout</h3>
+<ol type="1">
+<li>พยายามทำความเข้าใจ code <a href="#sec-dashboardPage3">Section&nbsp;2.3</a>.</li>
+<li>เปลี่ยน website title เป็น “A big name in politics” หรืออะไรก็ได้ตามต้องการ</li>
+<li>เปลี่ยน sidebar menu title เป็น “The Arni dashboard” หรืออะไรก็ได้ตามต้องการ</li>
+<li>เปลี่ยนภาพของ Guerry เป็นภาพอื่น เช่นภาพของ Arnold Schwarzenegger จาก web เช่น <a href="http://assets.schwarzenegger.com/images/img-2.jpg">here</a>.</li>
+</ol>
+<ul>
+<li>หรือจะทดลองเรียกภาพที่เก็บไว้ใน <code>www</code> มาใช้ดู</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution: ใช้ภาพจาก link
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UI ----</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"A big name in politics"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Header ----</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="fu">dashboardHeader</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">span</span>(<span class="at">style =</span> <span class="st">"display: inline-block; width: 100%;"</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">a</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">"logo"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">href =</span> <span class="st">"https://ammnet.org/"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"ammnet.png"</span>, <span class="at">style =</span> <span class="st">"height: 1.8em;"</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">tagList</span>(</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"ammnet.png"</span>, <span class="at">width =</span> <span class="dv">35</span>, <span class="at">height =</span> <span class="dv">35</span>),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">span</span>(<span class="st">"The Arni Dashboard"</span>, <span class="at">class =</span> <span class="st">"brand-text"</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Sidebar ----</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> <span class="fu">dashboardSidebar</span>(</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarMenu</span>(</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="at">tabName =</span> <span class="st">"tab_image"</span>, </span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">text =</span> <span class="st">"Image section"</span>, </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"image"</span>))</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Body ----</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">body =</span> <span class="fu">dashboardBody</span>(</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabItems</span>( <span class="co"># start tabItems</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tabItem</span>(<span class="st">"tab_image"</span>,</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>              <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"http://assets.schwarzenegger.com/images/img-2.jpg"</span>, </span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>                  <span class="at">width =</span> <span class="dv">729</span>, <span class="at">height =</span> <span class="dv">423</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    ) <span class="co"># end tabItems</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>) <span class="co"># End UI</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Server ----</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {}</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution: ใช้ภาพจาก www folder
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>ตรวจดูว่าเราอยู่ในdirectoryอะไร <code>getwd()</code>.</li>
+<li>เช็คดูอีกครั้งว่าไฟล์ <code>app.R</code> อยู่ใน directory เดียวกันนี้</li>
+<li>ใช้คำสั่ง <code>dir.create("www")</code> หรือปุ่มใน RStudio เพื่อสร้าง <code>www</code> folder</li>
+<li>เก็บภาพจาก <a href="http://assets.schwarzenegger.com/images/img-2.jpg">link</a> ไว้ใน <code>www</code> folder นี้</li>
+<li>หลังจากนั้นก็เพิ่มภาพโดยใช้คำสั่ง <code>img(src = "img-2.jpg", width = 729, height = 423)</code></li>
+</ol>
+<ul>
+<li><strong>ภาพที่เก็บใน www สามารถเรียกใช้ได้เลยโดยไม่ต้องพิมพ์path</strong></li>
+</ul>
+<ol start="6" type="1">
+<li>รัน app</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UI ----</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"A big name in politics"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Header ----</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="fu">dashboardHeader</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">span</span>(<span class="at">style =</span> <span class="st">"display: inline-block; width: 100%;"</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">a</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">"logo"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">href =</span> <span class="st">"https://ammnet.org/"</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"ammnet.png"</span>, <span class="at">style =</span> <span class="st">"height: 1.8em;"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">tagList</span>(</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"workshop-logo.png"</span>, <span class="at">width =</span> <span class="dv">35</span>, <span class="at">height =</span> <span class="dv">35</span>),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">span</span>(<span class="st">"The Arni Dashboard"</span>, <span class="at">class =</span> <span class="st">"brand-text"</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Sidebar ----</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> <span class="fu">dashboardSidebar</span>(</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarMenu</span>(</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="at">tabName =</span> <span class="st">"tab_image"</span>, </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">text =</span> <span class="st">"Image section"</span>, </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"image"</span>))</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Body ----</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">body =</span> <span class="fu">dashboardBody</span>(</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabItems</span>( <span class="co"># start tabItems</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tabItem</span>(<span class="st">"tab_image"</span>,</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>              <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"img-2.jpg"</span>, </span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>                  <span class="at">width =</span> <span class="dv">729</span>, <span class="at">height =</span> <span class="dv">423</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    ) <span class="co"># end tabItems</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>) <span class="co"># End UI</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Server ----</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {}</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="ui-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="ui-inputs">UI: Inputs</h2>
+<section id="ui-inputs-โครงสรางทวไป" class="level3">
+<h3 class="anchored" data-anchor-id="ui-inputs-โครงสรางทวไป">UI Inputs: โครงสร้างทั่วไป</h3>
+<ul>
+<li><code>inputId</code> argument:
+<ul>
+<li><code>inputId</code> ทำหน้าที่เป็นตัวเชื่อม front end กับ back end โดยที่ถ้า UI มี input ที่มีชื่อ ID <code>name</code> ฝั่งของ server function สามารถเข้าถึงค่าผ่าน <code>input$name</code></li>
+<li>name` = <strong>ตัวอักษรง่ายๆ</strong> (ตัวหนังสือ, เลข และ underscores) และ <strong>จำเพาะ ไม่ซ้ำ</strong></li>
+<li>Inputs จะถูกเก็บใน list ซึ่งเรียกผ่าน <code>input$...</code></li>
+</ul></li>
+<li><code>label</code> argument: สำหรับ label ที่อ่านเข้าใจง่าย</li>
+<li><code>value</code> argument: ค่า default value</li>
+<li>ส่วนที่เหลือ อีก 4 ตัว ก็เป็นค่าเฉพาะอื่นๆสำหรับตัวแปรนั้นๆ</li>
+<li>แนะนำ: ให้ใช้ตำแหน่งกับ <code>inputId</code> และ <code>label</code> และส่วนอื่นๆใช้ชื่อ
+<ul>
+<li>Q: เราอ่านคำสั่งนี้ว่าอย่างไร
+<ul>
+<li><code>sliderInput("min", "Limit (minimum)", value = 50, min = 0, max = 100)</code></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="ui-inputs-logic" class="level3">
+<h3 class="anchored" data-anchor-id="ui-inputs-logic">UI Inputs: Logic</h3>
+<ul>
+<li>Widget = Web element ที่ผู้ใช้สามารถมีปฏิสัมพันธ์ด้วยได้ (<a href="https://shiny.posit.co/r/gallery/">Shiny widget gallery</a>)
+<ul>
+<li>ผู้ใช้สามารถส่งข้อความไปยัง serverได้ (เช่น “ผมต้องการเลือกตัวแปรนี้”)</li>
+</ul></li>
+<li>เบื้องหลังมันจะเหมือนกันหมดสำหรับ logic ของ widgets
+<ul>
+<li>ผู้ใช้ใช้ widget เพื่อให้ค่า inputs</li>
+<li>Input ก็จะถูกแทรกเข้าไปใน functions ในส่วน SERVER
+<ul>
+<li><code>server &lt;- function(input, output) {}</code></li>
+</ul></li>
+</ul></li>
+<li>ใน <code>shiny</code> จะมีหลาย widgets
+<ul>
+<li>จะมีเพิ่มเติมอีกใน <code>shinyWidgets</code> package (เช่น <code>pickerInput()</code>)</li>
+</ul></li>
+</ul>
+</section>
+<section id="ui-inputs-ตวอยาง" class="level3">
+<h3 class="anchored" data-anchor-id="ui-inputs-ตวอยาง">UI Inputs: ตัวอย่าง</h3>
+<ul>
+<li>ลองรัน code ด้านล่างนี้ใน R</li>
+</ul>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-9_e1309517c00190ec57e8fd0e55b29e02">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shinyWidgets) <span class="co"># Install!</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>animals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"dog"</span>, <span class="st">"cat"</span>, <span class="st">"mouse"</span>) <span class="co"># Predefining some categories</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Free text</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textInput</span>(<span class="st">"name"</span>, <span class="st">"What's your name?"</span>),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">passwordInput</span>(<span class="st">"password"</span>, <span class="st">"What's your password?"</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textAreaInput</span>(<span class="st">"story"</span>, <span class="st">"Tell me about yourself"</span>, <span class="at">rows =</span> <span class="dv">3</span>),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Numeric inputs</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">numericInput</span>(<span class="st">"num"</span>, <span class="st">"Number one"</span>, <span class="at">value =</span> <span class="dv">0</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sliderInput</span>(<span class="st">"num2"</span>, <span class="st">"Number two"</span>, <span class="at">value =</span> <span class="dv">50</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sliderInput</span>(<span class="st">"rng"</span>, <span class="st">"Range"</span>, <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>), <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Dates</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dateInput</span>(<span class="st">"dob"</span>, <span class="st">"When were you born?"</span>),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dateRangeInput</span>(<span class="st">"holiday"</span>, <span class="st">"When do you want to go on vacation next?"</span>),</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Limited choices</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selectInput</span>(<span class="st">"state"</span>, <span class="st">"What's your favourite animal?"</span>, animals),</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">radioButtons</span>(<span class="st">"animal"</span>, <span class="st">"What's your favourite animal?"</span>, animals),</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selectInput</span>( <span class="st">"state"</span>, <span class="st">"What's your favourite animal?"</span>, animals, <span class="at">multiple =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">checkboxGroupInput</span>(<span class="st">"animal2"</span>, <span class="st">"What animals do you like?"</span>, animals),</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pickerInput</span>(</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">inputId =</span> <span class="st">"animal3"</span>,</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"What animals do you like?"</span>,</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices =</span> animals</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Single checkbox</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">checkboxInput</span>(<span class="st">"cleanup"</span>, <span class="st">"Clean up?"</span>, <span class="at">value =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">checkboxInput</span>(<span class="st">"shutdown"</span>, <span class="st">"Shutdown?"</span>),</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="co"># File uploads</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fileInput</span>(<span class="st">"upload"</span>, <span class="cn">NULL</span>),</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Action buttons</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(<span class="st">"click"</span>, <span class="st">"Click me!"</span>),</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(<span class="st">"drink"</span>, <span class="st">"Drink me!"</span>, <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"cocktail"</span>))</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {}</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exercises" class="level3">
+<h3 class="anchored" data-anchor-id="exercises">Exercise(s)</h3>
+<ul>
+<li>ดู <a href="https://mastering-shiny.org/basic-ui.html#exercises-2">Exercises 2.2.8</a>.</li>
+</ul>
+<ol type="1">
+<li>เราจะใส่ข้อความหรือที่เรียกว่า placeholder ให้ปรากฏ <em>ภายใน</em> ช่องใส่ข้อความได้อย่างไร ด้วยคำสั่ง <code>textInput()</code> <a href="#fig-textInput">Figure&nbsp;1</a> ตามด้านล่างนี้ (ดู <code>?textInput</code>)?</li>
+</ol>
+<div id="fig-textInput" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="resources/placeholder.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Text input (Source: Wickham 2021)</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">""</span>, <span class="at">placeholder =</span> <span class="st">"Your name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>อ่านเอกสารของคำสั่ง <code>sliderInput()</code> เพื่อดูว่าเราจะสร้าง date slider อย่างตัวอย่างนี้ได้อย่างไร <a href="#fig-date-slider">Figure&nbsp;2</a>.</li>
+</ol>
+<div id="fig-date-slider" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="resources/date-slider.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Date slider (Source: Wickham 2021)</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sliderInput</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dates"</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"When should we deliver?"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> <span class="fu">as.Date</span>(<span class="st">"2019-08-09"</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> <span class="fu">as.Date</span>(<span class="st">"2019-08-16"</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">as.Date</span>(<span class="st">"2019-08-10"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>สร้าง slider สำหรับเลือกค่าระหว่าง 0 ถึง 100 โดยมี stepของค่าที่เลือกได้คือ 5 พร้อมกับเพิ่มปุ่ม play เพื่อให้ผู้ใช้สามารถเปลี่ยนค่าได้เองอัตโนมัติ</li>
+</ol>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sliderInput</span>(<span class="st">"number"</span>, <span class="st">"Select a number:"</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>, <span class="at">value =</span> <span class="dv">0</span>, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">step =</span> <span class="dv">5</span>, <span class="at">animate =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<ol start="4" type="1">
+<li>ถ้าเรามีลิสต์ที่จะใช้กับ <code>selectInput()</code> ที่ค่อนข้างยาว เราควรที่จะแบ่งเป็นกลุ่มย่อย ๆ ลองอ่านเอกสารของ <code>selectInput()</code> นี่ดูว่าเราจะทำแบบนั้นได้อย่างไร (Hint: ลองดูในส่วน HTML ที่เรียกว่า <code>&lt;optgroup&gt;</code>.)</li>
+</ol>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">selectInput</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"breed"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Select your favorite animal breed:"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">choices =</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="st">`</span><span class="at">dogs</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="st">'German Shepherd'</span>, <span class="st">'Bulldog'</span>, </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'Labrador Retriever'</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">cats</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="st">'Persian cat'</span>, <span class="st">'Bengal cat'</span>, </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'Siamese Cat'</span>))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution: ตัวอย่าง app ที่ใช้ widgets หรือชนิดตัวควบคุมแบบอื่นๆ
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">""</span>, <span class="at">placeholder =</span> <span class="st">"Your name"</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sliderInput</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dates"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"When should we deliver?"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> <span class="fu">as.Date</span>(<span class="st">"2019-08-09"</span>),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> <span class="fu">as.Date</span>(<span class="st">"2019-08-16"</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">as.Date</span>(<span class="st">"2019-08-10"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sliderInput</span>(<span class="st">"number"</span>, <span class="st">"Select a number:"</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>, <span class="at">value =</span> <span class="dv">0</span>, </span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">step =</span> <span class="dv">5</span>, <span class="at">animate =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"breed"</span>,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Select your favorite animal breed:"</span>,</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">choices =</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="st">`</span><span class="at">dogs</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="st">'German Shepherd'</span>, <span class="st">'Bulldog'</span>, </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'Labrador Retriever'</span>),</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">cats</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="st">'Persian cat'</span>, <span class="st">'Bengal cat'</span>, </span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'Siamese Cat'</span>))</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution: App ที่แสดงค่า inputs ด้วย
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>ลอกและเรียบเรียงมาจาก <a href="https://stackoverflow.com/a/41035132">stackoverflow</a>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rm(list=ls())</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">basicPage</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">""</span>, <span class="at">placeholder =</span> <span class="st">"Your name"</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sliderInput</span>(</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dates"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"When should we deliver?"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">min =</span> <span class="fu">as.Date</span>(<span class="st">"2019-08-09"</span>),</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="fu">as.Date</span>(<span class="st">"2019-08-16"</span>),</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.Date</span>(<span class="st">"2019-08-10"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sliderInput</span>(<span class="st">"number"</span>, <span class="st">"Select a number:"</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>, <span class="at">value =</span> <span class="dv">0</span>, </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">step =</span> <span class="dv">5</span>, <span class="at">animate =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"breed"</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Select your favorite animal breed:"</span>,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices =</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="st">`</span><span class="at">dogs</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="st">'German Shepherd'</span>, <span class="st">'Bulldog'</span>, </span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'Labrador Retriever'</span>),</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>           <span class="st">`</span><span class="at">cats</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="st">'Persian cat'</span>, <span class="st">'Bengal cat'</span>, </span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'Siamese Cat'</span>))),</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tableOutput</span>(<span class="st">'show_inputs'</span>)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="fu">shinyServer</span>(<span class="cf">function</span>(input, output, session){</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>  AllInputs <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    myvalues <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">names</span>(input))){</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>      myvalues <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">rbind</span>(myvalues,(<span class="fu">cbind</span>(<span class="fu">names</span>(input)[i],input[[<span class="fu">names</span>(input)[i]]]))))</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(myvalues) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"User Input"</span>,<span class="st">"Last Value"</span>)</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    myvalues</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>show_inputs <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AllInputs</span>()</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(<span class="at">ui =</span> ui, <span class="at">server =</span> server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="ui-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="ui-outputs">UI: Outputs</h2>
+<ul>
+<li>Outputs ใน UI คอส่วนที่สร้างพื้นที่ที่จะแสดงผลจาก server function</li>
+<li>ซึ่งมันจะมีชื่อ ID เฉพาะของใครของมันเหมือน inputs
+<ul>
+<li>เช่น <code>textOutput("text")</code> ชื่อ ID คือ<code>text</code> ที่จะถูกเติมค่าจาก server</li>
+</ul></li>
+<li>ถ้า UI ที่สร้างใช้ชื่อ output ID คือ<code>text</code> เราสามารถที่จะเข้าถึงค่าของมันภายใน server function ได้ด้วยการเรียกผ่าน <code>output$text</code> (ดูด้านล่าง)</li>
+<li>แต่ล่ะ output function ในหน้าfront end มันจะผูกติดกับ <strong>render function</strong> ที่ back end (server)</li>
+<li>output มี 3 ประเภทหลัก: text ข้อความ, tables ตาราง และ plots กราฟต่างๆ</li>
+</ul>
+<section id="output-แบบขอความหรอtext" class="level3">
+<h3 class="anchored" data-anchor-id="output-แบบขอความหรอtext">output แบบข้อความหรือText</h3>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-12_b4fd30de259e06bf380003ba2fe45d40">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textOutput</span>(<span class="st">"text"</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">verbatimTextOutput</span>(<span class="st">"code"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>text <span class="ot">&lt;-</span> <span class="fu">renderText</span>({ </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Hello friend!"</span> </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>code <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>({ </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summary</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="output-แบบตาราง" class="level3">
+<h3 class="anchored" data-anchor-id="output-แบบตาราง">output แบบตาราง</h3>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-14_d4c3ed21c3e7c0547cfcce957eb76efc">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tableOutput</span>(<span class="st">"static"</span>),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dataTableOutput</span>(<span class="st">"dynamic"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>static <span class="ot">&lt;-</span> <span class="fu">renderTable</span>(<span class="fu">head</span>(mtcars))</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>dynamic <span class="ot">&lt;-</span> <span class="fu">renderDataTable</span>(mtcars, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>))</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="output-แบบกราฟตางๆ" class="level3">
+<h3 class="anchored" data-anchor-id="output-แบบกราฟตางๆ">output แบบกราฟต่างๆ</h3>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-15_9067169016398db2ba8999f873592b3d">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plotOutput</span>(<span class="st">"plot"</span>, <span class="at">width =</span> <span class="st">"400px"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>plot <span class="ot">&lt;-</span> <span class="fu">renderPlot</span>(<span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), <span class="at">res =</span> <span class="dv">96</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exercises-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercises-1">Exercise(s)</h3>
+<ul>
+<li>เอามาจาก <a href="https://mastering-shiny.org/basic-ui.html#exercises-2">Exercises 2.3.5</a>.</li>
+</ul>
+<ol type="1">
+<li>outputs จากคำสั่ง <code>textOutput()</code> กับ <code>verbatimTextOutput()</code> ควรจะคู่กับ render อะไร</li>
+</ol>
+<ol type="a">
+<li><code>renderPrint(summary(mtcars))</code></li>
+<li><code>renderText("Good morning!")</code></li>
+<li><code>renderPrint(t.test(1:5, 2:6))</code></li>
+<li><code>renderText(str(lm(mpg ~ wt, data = mtcars)))</code></li>
+</ol>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">verbatimTextOutput</span>(<span class="st">"mtcarsout1"</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">br</span>(), <span class="fu">hr</span>(),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textOutput</span>(<span class="st">"mtcarsout2"</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">br</span>(), <span class="fu">hr</span>(),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">verbatimTextOutput</span>(<span class="st">"mtcarsout3"</span>),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">br</span>(), <span class="fu">hr</span>(),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">verbatimTextOutput</span>(<span class="st">"mtcarsout4"</span>)  </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>mtcarsout1 <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>(<span class="fu">summary</span>(mtcars))</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>mtcarsout2 <span class="ot">&lt;-</span> <span class="fu">renderText</span>(<span class="st">"Good morning!"</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>mtcarsout3 <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>(<span class="fu">t.test</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>))</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>mtcarsout4 <span class="ot">&lt;-</span> <span class="fu">renderPrint</span>(<span class="fu">str</span>(<span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars)))</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>ปรับเปลี่ยน options ใน <code>renderDataTable()</code> เพื่อแสดงข้อมูลอย่างเดียว โดยที่ให้ตัว controls อื่นๆอย่าง การเรียงลำดับ การค้นหา หรือการกรองข้อมูลไม่ทำงาน หาข้อมูลได้ที่ <code>?renderDataTable</code> หรือ <a href="https://datatables.net/reference/option/" class="uri">https://datatables.net/reference/option/</a> หรือ <a href="https://shiny.posit.co/r/gallery/widgets/datatables-options/" class="uri">https://shiny.posit.co/r/gallery/widgets/datatables-options/</a></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">dataTableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderDataTable</span>(mtcars, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>))</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dataTableOutput</span>(<span class="st">"table"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderDataTable</span>(mtcars, </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">searching =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">paging =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">ordering =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">filtering =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="ภาพรวมของ-output-functions" class="level3">
+<h3 class="anchored" data-anchor-id="ภาพรวมของ-output-functions">ภาพรวมของ Output functions</h3>
+<ul>
+<li>Output functions
+<ul>
+<li><code>htmlOutput()</code>… ใช้เพื่อแสดงผลจาก HTML (!)</li>
+<li><code>imageOutput()</code>… แสดง image</li>
+<li><code>plotOutput()</code>… สร้าง plot</li>
+<li><code>plotlyOutput</code> … สร้าง plotly graph (!)</li>
+<li><code>tableOutput()</code>… สร้าง table</li>
+<li><code>textOutput()</code>… สร้าง text</li>
+<li><code>uiOutput()</code>… แสดงผลจาก HTML (!)</li>
+<li><code>verbatimTextOutput()</code>… สร้าง text</li>
+<li><code>dataTableOutput()</code>… สร้างตาราง data table (!)</li>
+<li><code>leafletOutput()</code> … สร้างแผนที่ leaflet</li>
+</ul></li>
+<li>ใน Guerry app ก็ใช้ outputs ที่มีเครื่องหมาย (!).</li>
+</ul>
+</section>
+</section>
+<section id="html-tag-functions" class="level2">
+<h2 class="anchored" data-anchor-id="html-tag-functions">HTML tag functions</h2>
+<ul>
+<li><strong>HTML tag functions</strong> ทำหน้าที่แปลง input เป็น html
+<ul>
+<li>ทดลองพิมพ์ <code>h2("A NEW HOPE", align = "center")</code> ใน console</li>
+<li><code>h2()</code> function จะสร้างhtml <code>&lt;h2&gt;&lt;/h2&gt;</code></li>
+</ul></li>
+<li>ตัวHTML tags ทั่วไป (เช่น <code>⁠&lt;div</code>&gt;⁠) สามารถเรียกใช้จากชื่อได้เลยเช่น <code>div()</code></li>
+<li>ตัวtagsที่ไม่ค่อยถูกใช้บ่อย ๆ อย่าง <code>⁠&lt;article</code>&gt;⁠ อาจจะะต้องเรียกผ่าน list collection ที่ชื่อ <code>tags</code> เช่น<code>tags$article()</code>
+<ul>
+<li>ลองพิมพ์ <code>tags$</code> ใน console
+<ul>
+<li><code>.noWS = ...</code> argument สำหรับลบ whitespace</li>
+</ul></li>
+</ul></li>
+<li>ดู <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">full reference for HTML tags</a><br>
+</li>
+<li><a href="https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/">ดู tutorial นี้อีกนะครับ</a></li>
+<li><strong>Exercise</strong>: รันตัวอย่างappด้านล่างนี้แล้วสังเกตผลลัพธ์ที่ได้จาการใช้ tagsต่างๆ</li>
+</ul>
+<div class="cell" data-hash="03-user-interface_cache/html/03-user-interface-17_f9213fa2ff620a6b9f1725e2830ddd2b">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bs4Dash)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># UI ----</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(<span class="at">title =</span> <span class="st">"My Shiny App"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Header ----</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="fu">dashboardHeader</span>(),</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Sidebar ----</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> <span class="fu">dashboardSidebar</span>(),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Body ----</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">body =</span> <span class="fu">dashboardBody</span>(</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">h2</span>(<span class="st">"A NEW HOPE"</span>, <span class="at">align =</span> <span class="st">"center"</span>),</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>              <span class="fu">h5</span>(<span class="st">"It is a period of civil war."</span>, <span class="at">align =</span> <span class="st">"center"</span>),</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">p</span>(<span class="st">"p creates a paragraph of text."</span>),</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">p</span>(<span class="st">"A new p() command starts a new paragraph. Supply a style attribute to change the format of the entire paragraph."</span>, <span class="at">style =</span> <span class="st">"font-family: 'times'; font-si16pt"</span>),</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">strong</span>(<span class="st">"strong() makes bold text."</span>),</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">em</span>(<span class="st">"em() creates italicized (i.e, emphasized) text."</span>),</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">hr</span>(<span class="at">style=</span><span class="st">"border-color:black;"</span>),</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">br</span>(),</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">line</span>(),</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">br</span>(),</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">code</span>(<span class="st">"code displays your text similar to computer code"</span>),</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">div</span>(<span class="st">"div creates segments of text with a similar style. This division of text is all blue because I passed the argument 'style = color:blue' to div"</span>, <span class="at">style =</span> <span class="st">"color:blue"</span>),</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">br</span>(),</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">p</span>(<span class="st">"span does the same thing as div, but it works with"</span>,</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">span</span>(<span class="st">"groups of words"</span>, <span class="at">style =</span> <span class="st">"color:blue"</span>),</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"that appear inside a paragraph."</span>))</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Server ----</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {}</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="guerry-app-แนะนำ-tab" class="level2">
+<h2 class="anchored" data-anchor-id="guerry-app-แนะนำ-tab">Guerry app: แนะนำ tab</h2>
+<ul>
+<li>ด้านล่างเป็นตัวอย่าง code จาก Guerry app ที่เกี่ยวกับการใช้ tab
+<ul>
+<li>อาจจะต้องลบบางส่วนออกเพื่อให้มันรันได้
+<ul>
+<li>เช่น <code>includeCSS("www/styles.css")</code></li>
+</ul></li>
+<li>รูปที่ไม่ขึ้นแสดงว่ามันหาไม่เจอ</li>
+<li>หลายส่วนใน UI function ใช้ html tags เช่น <code>h1()</code> หรือ <code>jumbotron()</code></li>
+</ul></li>
+</ul>
+<div class="cell" data-file="shinyapps/guerry/states_paul/app_tab_introduction.R">
+<details>
+<summary>Full R code including Shiny events</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(htmltools)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bs4Dash)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fresh)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(waiter)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shinyWidgets)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Guerry)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datawizard)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parameters)</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdark)</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 UI ----</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"The Guerry Dashboard"</span>,</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 3.1 Header ----</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="fu">dashboardHeader</span>(</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">span</span>(<span class="at">style =</span> <span class="st">"display: inline-block; width: 100%;"</span>),</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">a</span>(</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">"logo"</span>,</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">href =</span> <span class="st">"https://gesis.org/"</span>,</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"gesis-logo.png"</span>, <span class="at">style =</span> <span class="st">"height: 1.8em;"</span>)</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">tagList</span>(</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">img</span>(<span class="at">src =</span> <span class="st">"workshop-logo.png"</span>, <span class="at">width =</span> <span class="dv">35</span>, <span class="at">height =</span> <span class="dv">35</span>),</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>      <span class="fu">span</span>(<span class="st">"The Guerry Dashboard"</span>, <span class="at">class =</span> <span class="st">"brand-text"</span>)</span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">skin =</span> <span class="st">"light"</span>,</span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">sidebarIcon =</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"fa fa-bars"</span>, <span class="at">style =</span> <span class="st">"color: black;"</span>)</span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 3.2 Sidebar ----</span></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> <span class="fu">dashboardSidebar</span>(</span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> <span class="st">"sidebar"</span>,</span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarMenu</span>(</span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">id =</span> <span class="st">"sidebarMenu"</span>,</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="at">tabName =</span> <span class="st">"tab_intro"</span>, <span class="at">text =</span> <span class="st">"Introduction"</span>, <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"home"</span>)),</span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="at">tabName =</span> <span class="st">"tab_tabulate"</span>, <span class="at">text =</span> <span class="st">"Tabulate data"</span>, <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"table"</span>)),</span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="at">tabName =</span> <span class="st">"tab_model"</span>, <span class="at">text =</span> <span class="st">"Model data"</span>, <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"chart-line"</span>)),</span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="at">tabName =</span> <span class="st">"tab_map"</span>, <span class="at">text =</span> <span class="st">"Map data"</span>, <span class="at">icon =</span> <span class="fu">icon</span>(<span class="st">"map"</span>)),</span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>      <span class="at">flat =</span> <span class="cn">TRUE</span></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">minified =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">collapsed =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">fixed =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">skin =</span> <span class="st">"light"</span></span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 3.3 Body ----</span></span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">body =</span> <span class="fu">dashboardBody</span>(</span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabItems</span>(</span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a>      <span class="do">### 3.1.1 Tab: Introduction ----</span></span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tabItem</span>(</span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a>        <span class="at">tabName =</span> <span class="st">"tab_intro"</span>,</span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a>        <span class="fu">jumbotron</span>(</span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"The Guerry Dashboard"</span>,</span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>            <span class="at">lead =</span> <span class="st">"A Shiny app to explore the classic Guerry dataset."</span>,</span>
+<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a>            <span class="at">status =</span> <span class="st">"info"</span>,</span>
+<span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a>            <span class="at">btnName =</span> <span class="cn">NULL</span></span>
+<span id="cb22-74"><a href="#cb22-74" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb22-75"><a href="#cb22-75" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fluidRow</span>(</span>
+<span id="cb22-76"><a href="#cb22-76" aria-hidden="true" tabindex="-1"></a>            <span class="fu">column</span>(<span class="at">width =</span> <span class="dv">1</span>),</span>
+<span id="cb22-77"><a href="#cb22-77" aria-hidden="true" tabindex="-1"></a>          <span class="fu">column</span>(</span>
+<span id="cb22-78"><a href="#cb22-78" aria-hidden="true" tabindex="-1"></a>            <span class="at">width =</span> <span class="dv">6</span>,</span>
+<span id="cb22-79"><a href="#cb22-79" aria-hidden="true" tabindex="-1"></a>            <span class="fu">box</span>(</span>
+<span id="cb22-80"><a href="#cb22-80" aria-hidden="true" tabindex="-1"></a>              <span class="at">title =</span> <span class="st">"About"</span>,</span>
+<span id="cb22-81"><a href="#cb22-81" aria-hidden="true" tabindex="-1"></a>              <span class="at">status =</span> <span class="st">"primary"</span>,</span>
+<span id="cb22-82"><a href="#cb22-82" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">12</span>,</span>
+<span id="cb22-83"><a href="#cb22-83" aria-hidden="true" tabindex="-1"></a>              <span class="fu">blockQuote</span>(<span class="fu">HTML</span>(<span class="st">"André-Michel Guerry was a French lawyer and</span></span>
+<span id="cb22-84"><a href="#cb22-84" aria-hidden="true" tabindex="-1"></a><span class="st">                          amateur statistician. Together with Adolphe</span></span>
+<span id="cb22-85"><a href="#cb22-85" aria-hidden="true" tabindex="-1"></a><span class="st">                          Quetelet he may be regarded as the founder of</span></span>
+<span id="cb22-86"><a href="#cb22-86" aria-hidden="true" tabindex="-1"></a><span class="st">                          moral statistics which led to the development</span></span>
+<span id="cb22-87"><a href="#cb22-87" aria-hidden="true" tabindex="-1"></a><span class="st">                          of criminology, sociology and ultimately,</span></span>
+<span id="cb22-88"><a href="#cb22-88" aria-hidden="true" tabindex="-1"></a><span class="st">                          modern social science. &lt;br&gt;— Wikipedia: &lt;a href='https://en.wikipedia.org/wiki/Andr%C3%A9-Michel_Guerry'&gt;André-Michel Guerry&lt;/a&gt;"</span>),</span>
+<span id="cb22-89"><a href="#cb22-89" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color =</span> <span class="st">"primary"</span>),</span>
+<span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a>              <span class="fu">p</span>(<span class="fu">HTML</span>(<span class="st">"Andre-Michel Guerry (1833) was the first to </span></span>
+<span id="cb22-91"><a href="#cb22-91" aria-hidden="true" tabindex="-1"></a><span class="st">              systematically collect and analyze social data </span></span>
+<span id="cb22-92"><a href="#cb22-92" aria-hidden="true" tabindex="-1"></a><span class="st">               on such things as crime, literacy and suicide </span></span>
+<span id="cb22-93"><a href="#cb22-93" aria-hidden="true" tabindex="-1"></a><span class="st">               with the view to determining social laws and the </span></span>
+<span id="cb22-94"><a href="#cb22-94" aria-hidden="true" tabindex="-1"></a><span class="st">               relations among these variables. The Guerry data </span></span>
+<span id="cb22-95"><a href="#cb22-95" aria-hidden="true" tabindex="-1"></a><span class="st">               frame comprises a collection of 'moral variables' </span></span>
+<span id="cb22-96"><a href="#cb22-96" aria-hidden="true" tabindex="-1"></a><span class="st">               (cf. &lt;i&gt;&lt;a href='https://en.wikipedia.org/wiki/Moral_statistics'&gt;moral statistics&lt;/a&gt;&lt;/i&gt;) </span></span>
+<span id="cb22-97"><a href="#cb22-97" aria-hidden="true" tabindex="-1"></a><span class="st">               on the 86 departments of France around 1830. </span></span>
+<span id="cb22-98"><a href="#cb22-98" aria-hidden="true" tabindex="-1"></a><span class="st">               A few additional variables have been added </span></span>
+<span id="cb22-99"><a href="#cb22-99" aria-hidden="true" tabindex="-1"></a><span class="st">               from other sources. In total the data frame has </span></span>
+<span id="cb22-100"><a href="#cb22-100" aria-hidden="true" tabindex="-1"></a><span class="st">               86 observations (the departments of France) on 23 variables &lt;i&gt;(Source: &lt;code&gt;?Guerry&lt;/code&gt;)&lt;/i&gt;. </span></span>
+<span id="cb22-101"><a href="#cb22-101" aria-hidden="true" tabindex="-1"></a><span class="st">               In this app, we aim to explore Guerry’s data</span></span>
+<span id="cb22-102"><a href="#cb22-102" aria-hidden="true" tabindex="-1"></a><span class="st">                using spatial exploration and regression modelling."</span>)),</span>
+<span id="cb22-103"><a href="#cb22-103" aria-hidden="true" tabindex="-1"></a>              <span class="fu">hr</span>(),</span>
+<span id="cb22-104"><a href="#cb22-104" aria-hidden="true" tabindex="-1"></a>              <span class="fu">accordion</span>(</span>
+<span id="cb22-105"><a href="#cb22-105" aria-hidden="true" tabindex="-1"></a>                <span class="at">id =</span> <span class="st">"accord"</span>,</span>
+<span id="cb22-106"><a href="#cb22-106" aria-hidden="true" tabindex="-1"></a>                <span class="fu">accordionItem</span>(</span>
+<span id="cb22-107"><a href="#cb22-107" aria-hidden="true" tabindex="-1"></a>                    <span class="at">title =</span> <span class="st">"References"</span>,</span>
+<span id="cb22-108"><a href="#cb22-108" aria-hidden="true" tabindex="-1"></a>                    <span class="at">status =</span> <span class="st">"primary"</span>,</span>
+<span id="cb22-109"><a href="#cb22-109" aria-hidden="true" tabindex="-1"></a>                    <span class="at">solidHeader =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb22-110"><a href="#cb22-110" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"The following sources are referenced in this app:"</span>,</span>
+<span id="cb22-111"><a href="#cb22-111" aria-hidden="true" tabindex="-1"></a>                    tags<span class="sc">$</span><span class="fu">ul</span>(</span>
+<span id="cb22-112"><a href="#cb22-112" aria-hidden="true" tabindex="-1"></a>                        <span class="at">class =</span> <span class="st">"list-style: none"</span>,</span>
+<span id="cb22-113"><a href="#cb22-113" aria-hidden="true" tabindex="-1"></a>                        <span class="at">style =</span> <span class="st">"margin-left: -30px;"</span>,</span>
+<span id="cb22-114"><a href="#cb22-114" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">p</span>(<span class="st">"Angeville, A. (1836). Essai sur la Statistique de la Population française Paris: F. Doufour."</span>),</span>
+<span id="cb22-115"><a href="#cb22-115" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">p</span>(<span class="st">"Guerry, A.-M. (1833). Essai sur la statistique morale de la France Paris: Crochard. English translation: Hugh P. Whitt and Victor W. Reinking, Lewiston, N.Y. : Edwin Mellen Press, 2002."</span>),</span>
+<span id="cb22-116"><a href="#cb22-116" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">p</span>(<span class="st">"Parent-Duchatelet, A. (1836). De la prostitution dans la ville de Paris, 3rd ed, 1857, p. 32, 36"</span>),</span>
+<span id="cb22-117"><a href="#cb22-117" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">p</span>(<span class="st">"Palsky, G. (2008). Connections and exchanges in European thematic cartography. The case of 19th century choropleth maps. Belgeo 3-4, 413-426."</span>)</span>
+<span id="cb22-118"><a href="#cb22-118" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb22-119"><a href="#cb22-119" aria-hidden="true" tabindex="-1"></a>                ),</span>
+<span id="cb22-120"><a href="#cb22-120" aria-hidden="true" tabindex="-1"></a>                <span class="fu">accordionItem</span>(</span>
+<span id="cb22-121"><a href="#cb22-121" aria-hidden="true" tabindex="-1"></a>                    <span class="at">title =</span> <span class="st">"Details"</span>,</span>
+<span id="cb22-122"><a href="#cb22-122" aria-hidden="true" tabindex="-1"></a>                    <span class="at">status =</span> <span class="st">"primary"</span>,</span>
+<span id="cb22-123"><a href="#cb22-123" aria-hidden="true" tabindex="-1"></a>                    <span class="at">solidHeader =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb22-124"><a href="#cb22-124" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">p</span>(<span class="st">"This app was created as part of a Shiny workshop held in July 2023"</span>),</span>
+<span id="cb22-125"><a href="#cb22-125" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">p</span>(<span class="st">"Last update: June 2023"</span>),</span>
+<span id="cb22-126"><a href="#cb22-126" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">p</span>(<span class="st">"Further information about the data can be found"</span>,</span>
+<span id="cb22-127"><a href="#cb22-127" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">a</span>(<span class="st">"here."</span>, <span class="at">href =</span> <span class="st">"https://www.datavis.ca/gallery/guerry/guerrydat.html"</span>))</span>
+<span id="cb22-128"><a href="#cb22-128" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb22-129"><a href="#cb22-129" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb22-130"><a href="#cb22-130" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb22-131"><a href="#cb22-131" aria-hidden="true" tabindex="-1"></a>          ),</span>
+<span id="cb22-132"><a href="#cb22-132" aria-hidden="true" tabindex="-1"></a>          <span class="fu">column</span>(</span>
+<span id="cb22-133"><a href="#cb22-133" aria-hidden="true" tabindex="-1"></a>            <span class="at">width =</span> <span class="dv">4</span>,</span>
+<span id="cb22-134"><a href="#cb22-134" aria-hidden="true" tabindex="-1"></a>            <span class="fu">box</span>(</span>
+<span id="cb22-135"><a href="#cb22-135" aria-hidden="true" tabindex="-1"></a>              <span class="at">title =</span> <span class="st">"André Michel Guerry"</span>,</span>
+<span id="cb22-136"><a href="#cb22-136" aria-hidden="true" tabindex="-1"></a>              <span class="at">status =</span> <span class="st">"primary"</span>,</span>
+<span id="cb22-137"><a href="#cb22-137" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="dv">12</span>,</span>
+<span id="cb22-138"><a href="#cb22-138" aria-hidden="true" tabindex="-1"></a>              tags<span class="sc">$</span><span class="fu">img</span>(<span class="at">src =</span> <span class="st">"guerry.jpg"</span>, <span class="at">width =</span> <span class="st">"100%"</span>),</span>
+<span id="cb22-139"><a href="#cb22-139" aria-hidden="true" tabindex="-1"></a>              <span class="fu">p</span>(<span class="st">"Source: Palsky (2008)"</span>)</span>
+<span id="cb22-140"><a href="#cb22-140" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb22-141"><a href="#cb22-141" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb22-142"><a href="#cb22-142" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb22-143"><a href="#cb22-143" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb22-144"><a href="#cb22-144" aria-hidden="true" tabindex="-1"></a>    ) <span class="co"># end tabItems</span></span>
+<span id="cb22-145"><a href="#cb22-145" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb22-146"><a href="#cb22-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-147"><a href="#cb22-147" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 3.4 Footer (bottom)----</span></span>
+<span id="cb22-148"><a href="#cb22-148" aria-hidden="true" tabindex="-1"></a>  <span class="at">footer =</span> <span class="fu">dashboardFooter</span>(</span>
+<span id="cb22-149"><a href="#cb22-149" aria-hidden="true" tabindex="-1"></a>    <span class="at">left =</span> <span class="fu">span</span>(</span>
+<span id="cb22-150"><a href="#cb22-150" aria-hidden="true" tabindex="-1"></a>        <span class="st">"This dashboard was created by Jonas Lieth and Paul Bauer. Find the source code"</span>,</span>
+<span id="cb22-151"><a href="#cb22-151" aria-hidden="true" tabindex="-1"></a>        <span class="fu">a</span>(<span class="st">"here."</span>, <span class="at">href =</span> <span class="st">"https://github.com/paulcbauer/shiny_workshop/tree/main/shinyapps/guerry"</span>),</span>
+<span id="cb22-152"><a href="#cb22-152" aria-hidden="true" tabindex="-1"></a>        <span class="st">"It is based on data from the"</span>,</span>
+<span id="cb22-153"><a href="#cb22-153" aria-hidden="true" tabindex="-1"></a>        <span class="fu">a</span>(<span class="st">"Guerry R package."</span>, <span class="at">href =</span> <span class="st">"https://cran.r-project.org/web/packages/Guerry/index.html"</span>)</span>
+<span id="cb22-154"><a href="#cb22-154" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-155"><a href="#cb22-155" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb22-156"><a href="#cb22-156" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 3.5 Controlbar (top)----</span></span>
+<span id="cb22-157"><a href="#cb22-157" aria-hidden="true" tabindex="-1"></a>  <span class="at">controlbar =</span> <span class="fu">dashboardControlbar</span>(</span>
+<span id="cb22-158"><a href="#cb22-158" aria-hidden="true" tabindex="-1"></a>    <span class="fu">div</span>(<span class="at">class =</span> <span class="st">"p-3"</span>, <span class="fu">skinSelector</span>()),</span>
+<span id="cb22-159"><a href="#cb22-159" aria-hidden="true" tabindex="-1"></a>    <span class="at">skin =</span> <span class="st">"light"</span></span>
+<span id="cb22-160"><a href="#cb22-160" aria-hidden="true" tabindex="-1"></a>  )  </span>
+<span id="cb22-161"><a href="#cb22-161" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-162"><a href="#cb22-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-163"><a href="#cb22-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-164"><a href="#cb22-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-165"><a href="#cb22-165" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 Server ----</span></span>
+<span id="cb22-166"><a href="#cb22-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-167"><a href="#cb22-167" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {}</span>
+<span id="cb22-168"><a href="#cb22-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-169"><a href="#cb22-169" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="สรป" class="level2">
+<h2 class="anchored" data-anchor-id="สรป">สรุป</h2>
+<ul>
+<li>UI Layout: <code>fluidPage()</code> และ <code>dashBoardPage()</code> จะถูกใช้บ่อย</li>
+<li>เราใส่รูป Image ด้วยคำสั่ง <code>img(src = "...", , width = ..., height = ...)</code></li>
+<li><code>*Input()</code> functions: Used to generate input UI widgets
+<ul>
+<li>ค่าของ input ต่างจะถูกเก็บเป็นlistไว้ที่ <code>input$...</code> ซึ่งตามด้วยชื่อ <code>name</code> เช่น <code>input$tab_tabulate_select</code></li>
+</ul></li>
+<li><code>*Output()</code> functions: Used to display output, <code>dataTableOutput()</code>
+<ul>
+<li>output จะถูกส่งมาจากส่วนของ server</li>
+</ul></li>
+<li>ทั้ง input/output functions จะต้องมี IDs ที่เชื่อมกันกับ server</li>
+<li>HTML tags สามารถใช้ผ่าน <code>tags$name()</code> function ได้ เช่น <code>tags$br()</code></li>
+<li>ที่ยังไม่พูดถึง:
+<ul>
+<li><strong>Dynamic </strong>UI เราสามารถที่เปลี่ยน UI ได้เหมือนเป็น function ของ inputs เลย</li>
+</ul></li>
+</ul>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Bootstrap 4 shinydashboard using AdminLTE3: <a href="https://rinterface.github.io/bs4Dash/">Website</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
