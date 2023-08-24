@@ -1127,24 +1127,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ขอมลเชงพนทใน-r" class="level2">
 <h2 class="anchored" data-anchor-id="ขอมลเชงพนทใน-r">ข้อมูลเชิงพื้นที่ใน R</h2>
 <ul>
-<li><p>In R, spatial data can be handled using various packages:</p>
-<ul>
-<li><code>sp</code> (vector data) and <code>raster</code> (raster data) used to be the common packages for spatial analysis</li>
-<li><code>sf</code> (vector data) and <code>terra</code> (raster data) are their more timely successors</li>
-</ul></li>
-<li><p>By default, <code>data_guerry</code> is an sp object, but we converted it to an sf dataframe</p></li>
-<li><p><code>sf</code> dataframes consist of a geometry column (class <code>sfc</code>) and multiple features (i.e.&nbsp;non-spatial columns)</p></li>
-<li><p><code>sfc</code> geometries are list-like objects that consist of individual geometries (class <code>sfg</code>) and spatial metadata (e.g.&nbsp;type or dimension)</p></li>
-<li><p><code>sfg</code> objects are matrices consisting purely of coordinates</p></li>
-<li><p>ใน R ข้อมูลเชิงพื้นที่สามารถจัดการได้โดยใช้แพ็กเกจต่างๆ:</p>
+<li>ใน R ข้อมูลเชิงพื้นที่สามารถจัดการได้โดยใช้แพ็กเกจต่างๆ:
 <ul>
 <li><code>sp</code> (ข้อมูลเวกเตอร์) และ <code>raster</code> (ข้อมูลราสเตอร์) เป็นแพ็กเกจทั่วไปที่ใช้สำหรับการวิเคราะห์เชิงพื้นที่</li>
 <li><code>sf</code> (ข้อมูลเวกเตอร์) และ <code>terra</code> (ข้อมูลราสเตอร์) เป็นแพ็กเกจที่มาแทนที่และทันสมัยมากขึ้น</li>
 </ul></li>
-<li><p>โดยค่าเริ่มต้น <code>data_guerry</code> เป็นoutputประเภท sp แต่เราแปลงมันเป็นข้อมูลประเภท sf dataframe</p></li>
-<li><p>dataframes ประเภท <code>sf</code> ประกอบด้วยคอลัมน์ทางเรขาคณิต (คลาส <code>sfc</code>) และคุณลักษณะต่างๆ (เช่น non-spatial columns)</p></li>
-<li><p>วัตถุหรือoutputประเภท <code>sfc</code> เป็นวัตถุที่คล้ายกับรายการซึ่งประกอบด้วยเรขาคณิตแต่ละตัว (คลาส <code>sfg</code>) และข้อมูลเชิงพื้นที่ (เช่น ประเภทหรือมิติ)</p></li>
-<li><p>วัตถุหรือoutputประเภท <code>sfg</code> เป็นเมตริกซ์ที่ประกอบด้วยพิกัดเท่านั้น</p></li>
+<li>โดยค่าเริ่มต้น <code>data_guerry</code> เป็นoutputประเภท sp แต่เราแปลงมันเป็นข้อมูลประเภท sf dataframe</li>
+<li>dataframes ประเภท <code>sf</code> ประกอบด้วยคอลัมน์ทางเรขาคณิต (คลาส <code>sfc</code>) และคุณลักษณะต่างๆ (เช่น non-spatial columns)</li>
+<li>วัตถุหรือoutputประเภท <code>sfc</code> เป็นวัตถุที่คล้ายกับรายการซึ่งประกอบด้วยเรขาคณิตแต่ละตัว (คลาส <code>sfg</code>) และข้อมูลเชิงพื้นที่ (เช่น ประเภทหรือมิติ)</li>
+<li>วัตถุหรือoutputประเภท <code>sfg</code> เป็นเมตริกซ์ที่ประกอบด้วยพิกัดเท่านั้น</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_sf</span>(</span>
@@ -1161,23 +1152,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-2" data-code-lines="1">สร้าง sf dataframe</span>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-2">สร้าง sf dataframe</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-2" data-code-lines="2">สร้าง feature column – ในทางปฏิบัติคือ regular non-spatial column</span>
+<span data-code-lines="2" data-code-annotation="2" data-code-cell="annotated-cell-2">สร้าง feature column – ในทางปฏิบัติคือ regular non-spatial column</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-2" data-code-lines="3">สร้าง geometry column ที่ประกอบด้วย <code>sfc</code> object</span>
+<span data-code-lines="3" data-code-annotation="3" data-code-cell="annotated-cell-2">สร้าง geometry column ที่ประกอบด้วย <code>sfc</code> object</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-2" data-code-lines="4"><code>sfc</code> = geometry + spatial metadata</span>
+<span data-code-lines="4" data-code-annotation="4" data-code-cell="annotated-cell-2"><code>sfc</code> = geometry + spatial metadata</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-2" data-code-lines="5,6,7,8,9"><code>sfg</code> = raw geometries</span>
+<span data-code-lines="5,6,7,8,9" data-code-annotation="5" data-code-cell="annotated-cell-2"><code>sfg</code> = raw geometries</span>
 </dd>
 </dl>
 </div>
@@ -1310,23 +1301,23 @@ CRS:           NA
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-3" data-code-lines="1"><code>Guerry::gfrance85</code> มาในรูปแบบวัตถุ sp และไม่มีข้อมูล CRS</span>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-3"><code>Guerry::gfrance85</code> มาในรูปแบบวัตถุ sp และไม่มีข้อมูล CRS</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-3" data-code-lines="2">… ดังนั้นเราแปลงมันเป็น dataframe แบบ sf</span>
+<span data-code-lines="2" data-code-annotation="2" data-code-cell="annotated-cell-3">… ดังนั้นเราแปลงมันเป็น dataframe แบบ sf</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-3" data-code-lines="3">แปลงมันเป็น tibble เพื่อให้มันดูดีขึ้น(มั้ง)</span>
+<span data-code-lines="3" data-code-annotation="3" data-code-cell="annotated-cell-3">แปลงมันเป็น tibble เพื่อให้มันดูดีขึ้น(มั้ง)</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-3" data-code-lines="4">สุดท้าย แปลงมันกลับไปเป็น sf และตั้งค่า CRS เป็น 25572 (ซึ่งเป็น CRS ของชุดข้อมูล Guerry เดิม)</span>
+<span data-code-lines="4" data-code-annotation="4" data-code-cell="annotated-cell-3">สุดท้าย แปลงมันกลับไปเป็น sf และตั้งค่า CRS เป็น 25572 (ซึ่งเป็น CRS ของชุดข้อมูล Guerry เดิม)</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-3" data-code-lines="5,6,7,8,9,10,11,12">ที่นี่ เราเปลี่ยนรหัสภูมิภาคที่สามารถใช้สำหรับการรวมข้อมูลเชิงพื้นที่</span>
+<span data-code-lines="5,6,7,8,9,10,11,12" data-code-annotation="5" data-code-cell="annotated-cell-3">ที่นี่ เราเปลี่ยนรหัสภูมิภาคที่สามารถใช้สำหรับการรวมข้อมูลเชิงพื้นที่</span>
 </dd>
 </dl>
 </div>
@@ -1357,11 +1348,11 @@ CRS:           NA
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-4" data-code-lines="2">กำหนดกลุ่มตัวแปร (Region)</span>
+<span data-code-lines="2" data-code-annotation="1" data-code-cell="annotated-cell-4">กำหนดกลุ่มตัวแปร (Region)</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-4" data-code-lines="3,4,5,6,7,8,9,10,11,12">รวมตัวแปรและเรขาคณิตของ Guerry ตามตัวแปรกลุ่ม <code>Region</code></span>
+<span data-code-lines="3,4,5,6,7,8,9,10,11,12" data-code-annotation="2" data-code-cell="annotated-cell-4">รวมตัวแปรและเรขาคณิตของ Guerry ตามตัวแปรกลุ่ม <code>Region</code></span>
 </dd>
 </dl>
 </div>
@@ -1685,15 +1676,15 @@ Solution
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-6" data-code-lines="1,2">สร้างแท็บใหม่ชื่อว่า <code>tab_map</code></span>
+<span data-code-lines="1,2" data-code-annotation="1" data-code-cell="annotated-cell-6">สร้างแท็บใหม่ชื่อว่า <code>tab_map</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-6" data-code-lines="3,4,5,6,7,8,9,10,11">เพิ่ม fluid row ที่มีคอลัมน์และกล่องที่ครอบคลุมทั้งหน้า</span>
+<span data-code-lines="3,4,5,6,7,8,9,10,11" data-code-annotation="2" data-code-cell="annotated-cell-6">เพิ่ม fluid row ที่มีคอลัมน์และกล่องที่ครอบคลุมทั้งหน้า</span>
 </dd>
 <dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-6" data-code-lines="12">เพิ่มoutput ของ UI ที่จะรองรับแผนที่ของ leaflet ที่ครอบคลุมความกว้างทั้งหมดและมีความสูง 800 พิกเซล</span>
+<span data-code-lines="12" data-code-annotation="3" data-code-cell="annotated-cell-6">เพิ่มoutput ของ UI ที่จะรองรับแผนที่ของ leaflet ที่ครอบคลุมความกว้างทั้งหมดและมีความสูง 800 พิกเซล</span>
 </dd>
 </dl>
 </div>
@@ -1725,23 +1716,23 @@ Solution
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-7" data-code-lines="1">เติมผลลัพธ์ <code>tab_map_map</code> ด้วยแผนที่ leaflet โดยใช้ <code>renderLeaflet</code></span>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-7">เติมผลลัพธ์ <code>tab_map_map</code> ด้วยแผนที่ leaflet โดยใช้ <code>renderLeaflet</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-7" data-code-lines="2">เพิ่มแผนที่เปล่าโดยใช้ <code>leaflet()</code></span>
+<span data-code-lines="2" data-code-annotation="2" data-code-cell="annotated-cell-7">เพิ่มแผนที่เปล่าโดยใช้ <code>leaflet()</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-7" data-code-lines="3,4,5,6">เพิ่มแผนที่พื้นฐานหลายแผนที่: OpenStreetMap, OpenTopoMap, Stamen และortho photos จาก geo portal ฝรั่งเศส</span>
+<span data-code-lines="3,4,5,6" data-code-annotation="3" data-code-cell="annotated-cell-7">เพิ่มแผนที่พื้นฐานหลายแผนที่: OpenStreetMap, OpenTopoMap, Stamen และortho photos จาก geo portal ฝรั่งเศส</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-7" data-code-lines="7,8">เพิ่มปุ่มเพื่อควบคุมว่าต้องการแสดงแผนที่พื้นฐานอันไหน</span>
+<span data-code-lines="7,8" data-code-annotation="4" data-code-cell="annotated-cell-7">เพิ่มปุ่มเพื่อควบคุมว่าต้องการแสดงแผนที่พื้นฐานอันไหน</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-7" data-code-lines="9">ตั้งค่าศูนย์กลางของแผนที่และระดับซูมเริ่มต้น</span>
+<span data-code-lines="9" data-code-annotation="5" data-code-cell="annotated-cell-7">ตั้งค่าศูนย์กลางของแผนที่และระดับซูมเริ่มต้น</span>
 </dd>
 </dl>
 </div>
@@ -2548,47 +2539,47 @@ Solution
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-9" data-code-lines="2">กำหนดสีสำหรับการสร้างแผนที่ ที่นี่เราต้องการแสดงค่าที่ต่อเนื่องในสีแดง ผลลัพธ์คือฟังก์ชันที่เรียกว่า <code>pal()</code> ซึ่งเราจะใช้ในภายหลัง</span>
+<span data-code-lines="2" data-code-annotation="1" data-code-cell="annotated-cell-9">กำหนดสีสำหรับการสร้างแผนที่ ที่นี่เราต้องการแสดงค่าที่ต่อเนื่องในสีแดง ผลลัพธ์คือฟังก์ชันที่เรียกว่า <code>pal()</code> ซึ่งเราจะใช้ในภายหลัง</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-9" data-code-lines="4">สร้างแผนที่เปล่า เพิ่มข้อมูลทางภูมิศาสตร์ โปรดทราบว่า Leaflet โดยค่าเริ่มต้นรับเฉพาะข้อมูลทางภูมิศาสตร์ที่มี EPSG:4326 สำหรับข้อมูลอื่นๆ โปรดอ้างอิงถึง <a href="https://rstudio.github.io/leaflet/projections.html"><code>leaflet::leafletCRS()</code></a> แต่ไม่ควรคาดหวังว่าจะเข้าใจทุกอย่างที่เกิดขึ้น 555</span>
+<span data-code-lines="4" data-code-annotation="2" data-code-cell="annotated-cell-9">สร้างแผนที่เปล่า เพิ่มข้อมูลทางภูมิศาสตร์ โปรดทราบว่า Leaflet โดยค่าเริ่มต้นรับเฉพาะข้อมูลทางภูมิศาสตร์ที่มี EPSG:4326 สำหรับข้อมูลอื่นๆ โปรดอ้างอิงถึง <a href="https://rstudio.github.io/leaflet/projections.html"><code>leaflet::leafletCRS()</code></a> แต่ไม่ควรคาดหวังว่าจะเข้าใจทุกอย่างที่เกิดขึ้น 555</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-9" data-code-lines="5">เพิ่มแผนที่พื้นฐานของ OpenStreetMap ฝรั่งเศส</span>
+<span data-code-lines="5" data-code-annotation="3" data-code-cell="annotated-cell-9">เพิ่มแผนที่พื้นฐานของ OpenStreetMap ฝรั่งเศส</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-9" data-code-lines="6">กำหนดศูนย์กลางและระดับการซูมของมุมมองเริ่มต้น</span>
+<span data-code-lines="6" data-code-annotation="4" data-code-cell="annotated-cell-9">กำหนดศูนย์กลางและระดับการซูมของมุมมองเริ่มต้น</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-9" data-code-lines="7">ฟังก์ชัน <code>addPolygons()</code> เพิ่มรูปหลายเหลี่ยมลงในแผนที่ Leaflet</span>
+<span data-code-lines="7" data-code-annotation="5" data-code-cell="annotated-cell-9">ฟังก์ชัน <code>addPolygons()</code> เพิ่มรูปหลายเหลี่ยมลงในแผนที่ Leaflet</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-annotation="6" data-code-cell="annotated-cell-9" data-code-lines="8"><code>fillColor</code> กำหนดวิธีการระบายสีของรูปหลายเหลี่ยม เราส่งสูตรที่มีการเรียกใช้ฟังก์ชัน <code>pal()</code> ที่เราสร้างขึ้น (ดูข้อ 2) เพื่อแมปสีกับตัวแปร Literacy</span>
+<span data-code-lines="8" data-code-annotation="6" data-code-cell="annotated-cell-9"><code>fillColor</code> กำหนดวิธีการระบายสีของรูปหลายเหลี่ยม เราส่งสูตรที่มีการเรียกใช้ฟังก์ชัน <code>pal()</code> ที่เราสร้างขึ้น (ดูข้อ 2) เพื่อแมปสีกับตัวแปร Literacy</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-annotation="7" data-code-cell="annotated-cell-9" data-code-lines="9,10,11,12">เราสามารถเพิ่มพารามิเตอร์เพิ่มเติมที่ควบคุมการแสดงผลของแผนที่ เช่น ความทึบแสง, สี หรือความหนาของเส้น (น้ำหนัก)</span>
+<span data-code-lines="9,10,11,12" data-code-annotation="7" data-code-cell="annotated-cell-9">เราสามารถเพิ่มพารามิเตอร์เพิ่มเติมที่ควบคุมการแสดงผลของแผนที่ เช่น ความทึบแสง, สี หรือความหนาของเส้น (น้ำหนัก)</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="8">8</dt>
 <dd>
-<span data-code-annotation="8" data-code-cell="annotated-cell-9" data-code-lines="13,14,15,16,17,18,19,20,21"><code>highlightOptions()</code> ช่วยให้สามารถเพิ่มเอฟเฟ็คเด่นสว่างเมื่อวางเม้าส์เหนือรูปหลายเหลี่ยม</span>
+<span data-code-lines="13,14,15,16,17,18,19,20,21" data-code-annotation="8" data-code-cell="annotated-cell-9"><code>highlightOptions()</code> ช่วยให้สามารถเพิ่มเอฟเฟ็คเด่นสว่างเมื่อวางเม้าส์เหนือรูปหลายเหลี่ยม</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="9">9</dt>
 <dd>
-<span data-code-annotation="9" data-code-cell="annotated-cell-9" data-code-lines="22,23">โดยใช้ <code>addLegend()</code> เราเพิ่มคำอธิบายลงในแผนที่ Leaflet ที่มุมขวาล่าง</span>
+<span data-code-lines="22,23" data-code-annotation="9" data-code-cell="annotated-cell-9">โดยใช้ <code>addLegend()</code> เราเพิ่มคำอธิบายลงในแผนที่ Leaflet ที่มุมขวาล่าง</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="10">10</dt>
 <dd>
-<span data-code-annotation="10" data-code-cell="annotated-cell-9" data-code-lines="24,25"><code>addLegend()</code> รับค่าในลักษณะเดียวกับ <code>addPolygons()</code>: <code>pal</code> รับฟังก์ชันเก็บสีที่สร้างขึ้นและ <code>values</code> รับสูตรที่มีชื่อคอลัมน์ในinput dataset</span>
+<span data-code-lines="24,25" data-code-annotation="10" data-code-cell="annotated-cell-9"><code>addLegend()</code> รับค่าในลักษณะเดียวกับ <code>addPolygons()</code>: <code>pal</code> รับฟังก์ชันเก็บสีที่สร้างขึ้นและ <code>values</code> รับสูตรที่มีชื่อคอลัมน์ในinput dataset</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="11">11</dt>
 <dd>
-<span data-code-annotation="11" data-code-cell="annotated-cell-9" data-code-lines="28">สุดท้าย <code>labelFormat()</code> ช่วยให้เราสามารถเปลี่ยนรูปแบบของป้ายคำอธิบาย หากต้องการระบุว่าตัวเลขเป็นเปอร์เซ็นต์ เมตร หรืออื่น <img src="resources/06_02.gif" class="img-fluid"></span>
+<span data-code-lines="28" data-code-annotation="11" data-code-cell="annotated-cell-9">สุดท้าย <code>labelFormat()</code> ช่วยให้เราสามารถเปลี่ยนรูปแบบของป้ายคำอธิบาย หากต้องการระบุว่าตัวเลขเป็นเปอร์เซ็นต์ เมตร หรืออื่น <img src="resources/06_02.gif" class="img-fluid"></span>
 </dd>
 </dl>
 </div>
@@ -3491,11 +3482,11 @@ Solution
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-1" data-code-lines="10">ปรับขนาดความทึบของการเติมสีโดยใช้ตัวแปร Commerce เนื่องจากความทึบถูกวัดด้วยเปอร์เซ็นต์และ Commerce ถูกวัดตามค่าที่ประมาณ 1-100 เราต้องปรับขนาดของ Commerce โดยการหารด้วย 100</span>
+<span data-code-lines="10" data-code-annotation="1" data-code-cell="annotated-cell-1">ปรับขนาดความทึบของการเติมสีโดยใช้ตัวแปร Commerce เนื่องจากความทึบถูกวัดด้วยเปอร์เซ็นต์และ Commerce ถูกวัดตามค่าที่ประมาณ 1-100 เราต้องปรับขนาดของ Commerce โดยการหารด้วย 100</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-1" data-code-lines="14">ภายในการแสดงผลด้วยสูตร เราสามารถใส่ทุกการแสดงผลของ R ดังนั้น เพื่อรวมค่าและข้อความเราสามารถใช้ <code>paste0()</code> บนตัวแปรได้เลย</span>
+<span data-code-lines="14" data-code-annotation="2" data-code-cell="annotated-cell-1">ภายในการแสดงผลด้วยสูตร เราสามารถใส่ทุกการแสดงผลของ R ดังนั้น เพื่อรวมค่าและข้อความเราสามารถใช้ <code>paste0()</code> บนตัวแปรได้เลย</span>
 </dd>
 </dl>
 </div>
@@ -3635,15 +3626,15 @@ Warning
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-12" data-code-lines="4,5,6,7,8,9">ก่อนหน้านี้ แท็บบนแผนที่ประกอบด้วยคอลัมน์เดียวกับกล่อง. ตอนนี้เราเพิ่มคอลัมน์อีกหนึ่งคอลัมน์ซึ่งใช้พื้นที่ 1/3 ของหน้าเพื่อเพิ่มข้อมูลป้อนของ UI</span>
+<span data-code-lines="4,5,6,7,8,9" data-code-annotation="1" data-code-cell="annotated-cell-12">ก่อนหน้านี้ แท็บบนแผนที่ประกอบด้วยคอลัมน์เดียวกับกล่อง. ตอนนี้เราเพิ่มคอลัมน์อีกหนึ่งคอลัมน์ซึ่งใช้พื้นที่ 1/3 ของหน้าเพื่อเพิ่มข้อมูลป้อนของ UI</span>
 </dd>
 <dt data-target-cell="annotated-cell-12" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-12" data-code-lines="10,11,12,13,14">เพิ่มเมนูแบบเลื่อนลงที่เลือกตัวแปรที่จะแสดงบนแผนที่</span>
+<span data-code-lines="10,11,12,13,14" data-code-annotation="2" data-code-cell="annotated-cell-12">เพิ่มเมนูแบบเลื่อนลงที่เลือกตัวแปรที่จะแสดงบนแผนที่</span>
 </dd>
 <dt data-target-cell="annotated-cell-12" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-12" data-code-lines="16,17,18,19">เพิ่มกล่องที่สอง เนื่องจากทั้งสองกล่องมีความกว้าง 12</span>
+<span data-code-lines="16,17,18,19" data-code-annotation="3" data-code-cell="annotated-cell-12">เพิ่มกล่องที่สอง เนื่องจากทั้งสองกล่องมีความกว้าง 12</span>
 </dd>
 </dl>
 </div>
@@ -3734,19 +3725,19 @@ Warning
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-13" data-code-lines="2,3,4,5,6,7,8">ในการแสดงผลตอบสนองที่เรียกว่า <code>poly()</code> เราจับระดับการรวมที่เลือกและตัดสินใจว่าจะใช้ <code>data_guerry</code> ต้นฉบับหรือตัวแปรที่ถูกรวมแล้ว <code>data_guerry_region</code></span>
+<span data-code-lines="2,3,4,5,6,7,8" data-code-annotation="1" data-code-cell="annotated-cell-13">ในการแสดงผลตอบสนองที่เรียกว่า <code>poly()</code> เราจับระดับการรวมที่เลือกและตัดสินใจว่าจะใช้ <code>data_guerry</code> ต้นฉบับหรือตัวแปรที่ถูกรวมแล้ว <code>data_guerry_region</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-13" data-code-lines="11,12,13,14,15,16,17">ในการแสดงผลตอบสนองที่เรียกว่า <code>palette()</code> เราจับเก็บพาเลตที่เลือกและจับคู่กับชื่อพาเลตที่มีอยู่</span>
+<span data-code-lines="11,12,13,14,15,16,17" data-code-annotation="2" data-code-cell="annotated-cell-13">ในการแสดงผลตอบสนองที่เรียกว่า <code>palette()</code> เราจับเก็บพาเลตที่เลือกและจับคู่กับชื่อพาเลตที่มีอยู่</span>
 </dd>
 <dt data-target-cell="annotated-cell-13" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-13" data-code-lines="20,21,22,23,24,25,26,27,28,29,30,31,32,33,34">เรารวมทุกข้อมูลinputsในการแสดงผลตอบสนองที่เรียกว่า <code>params()</code> ที่เราจัดการข้อมูลที่เหลือก่อนนำinput dataสู่การทำแผนที่ leaflet</span>
+<span data-code-lines="20,21,22,23,24,25,26,27,28,29,30,31,32,33,34" data-code-annotation="3" data-code-cell="annotated-cell-13">เรารวมทุกข้อมูลinputsในการแสดงผลตอบสนองที่เรียกว่า <code>params()</code> ที่เราจัดการข้อมูลที่เหลือก่อนนำinput dataสู่การทำแผนที่ leaflet</span>
 </dd>
 <dt data-target-cell="annotated-cell-13" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-13" data-code-lines="40,41,50,66,67">เราทำแผนที่และแทนที่ข้อมูลที่เขียนก่อนหน้าด้วยreactive dataใหม่ของเรา ซึ่งรวมถึงinput dataframeที่ตอนนี้คือ <code>params$poly</code>, สีที่เติมตอนนี้เป็นสูตรที่มาจากฟังก์ชันพาเลตและตัวแปรที่เลือก และในที่สุดพาเลตและค่าที่จำเป็นสำหรับตำแหน่งเส้นสีที่ต้องการในสัญลักษณ์ (legend) <img src="resources/06_03.gif" class="img-fluid"></span>
+<span data-code-lines="40,41,50,66,67" data-code-annotation="4" data-code-cell="annotated-cell-13">เราทำแผนที่และแทนที่ข้อมูลที่เขียนก่อนหน้าด้วยreactive dataใหม่ของเรา ซึ่งรวมถึงinput dataframeที่ตอนนี้คือ <code>params$poly</code>, สีที่เติมตอนนี้เป็นสูตรที่มาจากฟังก์ชันพาเลตและตัวแปรที่เลือก และในที่สุดพาเลตและค่าที่จำเป็นสำหรับตำแหน่งเส้นสีที่ต้องการในสัญลักษณ์ (legend) <img src="resources/06_03.gif" class="img-fluid"></span>
 </dd>
 </dl>
 </div>
@@ -4687,7 +4678,7 @@ Solution
 <dl>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-1" data-code-lines="31,32,33,34,35,36,37,38">slider input อันใหม่</span>
+<span data-code-lines="31,32,33,34,35,36,37,38" data-code-annotation="1" data-code-cell="annotated-cell-1">slider input อันใหม่</span>
 </dd>
 </dl>
 </div>
@@ -4727,7 +4718,7 @@ Solution
 <dl>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-2" data-code-lines="11">inputใหม่ถูกใช้เป็นอาร์กิวเมนต์เพื่อระบุความทึบของสีที่เติม</span>
+<span data-code-lines="11" data-code-annotation="1" data-code-cell="annotated-cell-2">inputใหม่ถูกใช้เป็นอาร์กิวเมนต์เพื่อระบุความทึบของสีที่เติม</span>
 </dd>
 </dl>
 </div>
@@ -4945,7 +4936,7 @@ Tip
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-16" data-code-lines="15">เพิ่มoutput UI ด้วย ID <code>tab_map_desc</code> นี่คือส่วนที่คำอธิบายตัวแปรจะถูกแทรกลงไป</span>
+<span data-code-lines="15" data-code-annotation="1" data-code-cell="annotated-cell-16">เพิ่มoutput UI ด้วย ID <code>tab_map_desc</code> นี่คือส่วนที่คำอธิบายตัวแปรจะถูกแทรกลงไป</span>
 </dd>
 </dl>
 </div>
@@ -5036,11 +5027,11 @@ Tip
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-17" data-code-lines="2,3,4">เพื่อสร้าง UI เราเรียกใช้ฟังก์ชัน <code>renderUI()</code> เราสามารถเข้าถึงlistที่เราสร้างไว้ก่อนเพื่อเข้าถึงคำอธิบายของตัวแปรที่เลือก</span>
+<span data-code-lines="2,3,4" data-code-annotation="1" data-code-cell="annotated-cell-17">เพื่อสร้าง UI เราเรียกใช้ฟังก์ชัน <code>renderUI()</code> เราสามารถเข้าถึงlistที่เราสร้างไว้ก่อนเพื่อเข้าถึงคำอธิบายของตัวแปรที่เลือก</span>
 </dd>
 <dt data-target-cell="annotated-cell-17" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-17" data-code-lines="75,76">ในทางเดียวกันเราสามารถเพิ่มชื่อและหน่วยไปที่legendด้วยอาร์กิวเมนต์ <code>title</code> และ <code>labFormat</code> ใน <code>addLegend()</code></span>
+<span data-code-lines="75,76" data-code-annotation="2" data-code-cell="annotated-cell-17">ในทางเดียวกันเราสามารถเพิ่มชื่อและหน่วยไปที่legendด้วยอาร์กิวเมนต์ <code>title</code> และ <code>labFormat</code> ใน <code>addLegend()</code></span>
 </dd>
 </dl>
 </div>
@@ -5938,15 +5929,15 @@ Tip
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-20" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-20" data-code-lines="1">กำหนดตารางแวดล้อม</span>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-20">กำหนดตารางแวดล้อม</span>
 </dd>
 <dt data-target-cell="annotated-cell-20" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-20" data-code-lines="2,7,12">กำหนดแถวของตาราง</span>
+<span data-code-lines="2,7,12" data-code-annotation="2" data-code-cell="annotated-cell-20">กำหนดแถวของตาราง</span>
 </dd>
 <dt data-target-cell="annotated-cell-20" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-20" data-code-lines="3,4,5,8,9,10,13,14,15">กำหนดเซลข้อมูล 3เซลล์ <img src="https://vertex-academy.com/tutorials/wp-content/uploads/2016/08/table.png" class="img-fluid"></span>
+<span data-code-lines="3,4,5,8,9,10,13,14,15" data-code-annotation="3" data-code-cell="annotated-cell-20">กำหนดเซลข้อมูล 3เซลล์ <img src="https://vertex-academy.com/tutorials/wp-content/uploads/2016/08/table.png" class="img-fluid"></span>
 </dd>
 </dl>
 </div>
@@ -6074,39 +6065,39 @@ Tip
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-21" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-21" data-code-lines="9,10,11">เก็บข้อมูลที่เกี่ยวข้องทั้งหมด รวมถึง: ชื่อภูมิภาค ชื่อแผนก และค่าตัวแปร</span>
+<span data-code-lines="9,10,11" data-code-annotation="1" data-code-cell="annotated-cell-21">เก็บข้อมูลที่เกี่ยวข้องทั้งหมด รวมถึง: ชื่อภูมิภาค ชื่อแผนก และค่าตัวแปร</span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-21" data-code-lines="14,15,16">ในกรณีที่แผนที่ถูกรวมกัน ชื่อแผนกจะเป็น <code>NULL</code> เพื่อป้องกันการเกิดข้อผิดพลาดในขั้นตอนถัดไปเราจะแทนที่ด้วย <code>NA</code> โดยมีความยาวเท่ากับเวกเตอร์อื่น ๆ</span>
+<span data-code-lines="14,15,16" data-code-annotation="2" data-code-cell="annotated-cell-21">ในกรณีที่แผนที่ถูกรวมกัน ชื่อแผนกจะเป็น <code>NULL</code> เพื่อป้องกันการเกิดข้อผิดพลาดในขั้นตอนถัดไปเราจะแทนที่ด้วย <code>NA</code> โดยมีความยาวเท่ากับเวกเตอร์อื่น ๆ</span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-21" data-code-lines="20,21">จากนั้นเราจะใช้ฟังก์ชันบนเวกเตอร์ ทั้ง 3 พร้อมกันเพื่อที่เราจะสามารถทำงานกับค่าป้ายชื่อทั้งหมดในเวลาเดียวกันได้</span>
+<span data-code-lines="20,21" data-code-annotation="3" data-code-cell="annotated-cell-21">จากนั้นเราจะใช้ฟังก์ชันบนเวกเตอร์ ทั้ง 3 พร้อมกันเพื่อที่เราจะสามารถทำงานกับค่าป้ายชื่อทั้งหมดในเวลาเดียวกันได้</span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-21" data-code-lines="22">สร้างสภาพแวดล้อมของตาราง</span>
+<span data-code-lines="22" data-code-annotation="4" data-code-cell="annotated-cell-21">สร้างสภาพแวดล้อมของตาราง</span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-21" data-code-lines="24,31,38">สร้างแถว3แถว คือ แถวหนึ่งสำหรับแต่ละเวกเตอร์: regions, departments และค่า</span>
+<span data-code-lines="24,31,38" data-code-annotation="5" data-code-cell="annotated-cell-21">สร้างแถว3แถว คือ แถวหนึ่งสำหรับแต่ละเวกเตอร์: regions, departments และค่า</span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-annotation="6" data-code-cell="annotated-cell-21" data-code-lines="26,33,40">เซลแรกเป็นด้านซ้าย (เช่น “Department” หรือ “Region”)</span>
+<span data-code-lines="26,33,40" data-code-annotation="6" data-code-cell="annotated-cell-21">เซลแรกเป็นด้านซ้าย (เช่น “Department” หรือ “Region”)</span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-annotation="7" data-code-cell="annotated-cell-21" data-code-lines="27,34,41">เซลที่สองเป็นด้านขวา (เช่น ชื่อdepartment)</span>
+<span data-code-lines="27,34,41" data-code-annotation="7" data-code-cell="annotated-cell-21">เซลที่สองเป็นด้านขวา (เช่น ชื่อdepartment)</span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="8">8</dt>
 <dd>
-<span data-code-annotation="8" data-code-cell="annotated-cell-21" data-code-lines="55">เพิ่มป้ายชื่อที่สร้างขึ้นใหม่ไปยังรายการ <code>params()</code></span>
+<span data-code-lines="55" data-code-annotation="8" data-code-cell="annotated-cell-21">เพิ่มป้ายชื่อที่สร้างขึ้นใหม่ไปยังรายการ <code>params()</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-21" data-target-annotation="9">9</dt>
 <dd>
-<span data-code-annotation="9" data-code-cell="annotated-cell-21" data-code-lines="75">อย่าลืมส่งป้ายชื่อไปยังแผนที่ Leaflet โดยใช้พารามิเตอร์ <code>labels</code></span>
+<span data-code-lines="75" data-code-annotation="9" data-code-cell="annotated-cell-21">อย่าลืมส่งป้ายชื่อไปยังแผนที่ Leaflet โดยใช้พารามิเตอร์ <code>labels</code></span>
 </dd>
 </dl>
 </div>
@@ -7082,7 +7073,7 @@ Tip
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-23" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-23" data-code-lines="3">code ส่วนใหญ่ยังเหมือนเดิม แต่เราได้แยกการเรียกใช้ผ่าน <code>params()</code> เพื่อป้องกันไม่ให้ฟังก์ชันrenderทำงานทุกครั้งที่ <code>params()</code> ไม่ทำงาน</span>
+<span data-code-lines="3" data-code-annotation="1" data-code-cell="annotated-cell-23">code ส่วนใหญ่ยังเหมือนเดิม แต่เราได้แยกการเรียกใช้ผ่าน <code>params()</code> เพื่อป้องกันไม่ให้ฟังก์ชันrenderทำงานทุกครั้งที่ <code>params()</code> ไม่ทำงาน</span>
 </dd>
 </dl>
 </div>
@@ -7131,23 +7122,23 @@ Tip
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-24" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-24" data-code-lines="1">proxy ทำงานร่วมกับตัวobserver ไม่จำเป็นต้องใช้ฟังก์ชันrender เนื่องจากพวก widgets ถูก re-rendered แต่ widgetเดิมถูกอัปเดต</span>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-24">proxy ทำงานร่วมกับตัวobserver ไม่จำเป็นต้องใช้ฟังก์ชันrender เนื่องจากพวก widgets ถูก re-rendered แต่ widgetเดิมถูกอัปเดต</span>
 </dd>
 <dt data-target-cell="annotated-cell-24" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-24" data-code-lines="2">สามารถเรียกใช้ <code>params()</code> ได้โดยไม่ต้อง isolation</span>
+<span data-code-lines="2" data-code-annotation="2" data-code-cell="annotated-cell-24">สามารถเรียกใช้ <code>params()</code> ได้โดยไม่ต้อง isolation</span>
 </dd>
 <dt data-target-cell="annotated-cell-24" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-24" data-code-lines="3">สร้างproxyของ leaflet ตัวproxyนี้จะอัปเดตค่าแผนที่โดยไม่ต้องrenderแผนที่ทั้งหมด มันจะช่วยเพิ่มประสิทธิภาพ</span>
+<span data-code-lines="3" data-code-annotation="3" data-code-cell="annotated-cell-24">สร้างproxyของ leaflet ตัวproxyนี้จะอัปเดตค่าแผนที่โดยไม่ต้องrenderแผนที่ทั้งหมด มันจะช่วยเพิ่มประสิทธิภาพ</span>
 </dd>
 <dt data-target-cell="annotated-cell-24" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-24" data-code-lines="4,5">ลบlayer ที่มีอยู่เพราะเราไม่ต้องการให้ layer เรียงกันไปเรื่อย ๆ</span>
+<span data-code-lines="4,5" data-code-annotation="4" data-code-cell="annotated-cell-24">ลบlayer ที่มีอยู่เพราะเราไม่ต้องการให้ layer เรียงกันไปเรื่อย ๆ</span>
 </dd>
 <dt data-target-cell="annotated-cell-24" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-24" data-code-lines="6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31">เพิ่มlayerใหม่เหมือนกับการสร้างแผนที่ leaflet ปกติ</span>
+<span data-code-lines="6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31" data-code-annotation="5" data-code-cell="annotated-cell-24">เพิ่มlayerใหม่เหมือนกับการสร้างแผนที่ leaflet ปกติ</span>
 </dd>
 </dl>
 </div>
@@ -8174,23 +8165,23 @@ $lng
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-27" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-27" data-code-lines="2">เก็บเหตุการณ์ ตัวเหตุการณ์ถูกยกเลิกเมื่อผู้ใช้คลิกที่รูปร่างใน leaflet <code>tab_map_map</code></span>
+<span data-code-lines="2" data-code-annotation="1" data-code-cell="annotated-cell-27">เก็บเหตุการณ์ ตัวเหตุการณ์ถูกยกเลิกเมื่อผู้ใช้คลิกที่รูปร่างใน leaflet <code>tab_map_map</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-27" data-code-lines="3">ยกเลิกตัว observer เมื่อตัวแปรคลิกไม่ใช่ “ค่าจริง” (ดู <code>?isTruthy</code>) ถ้าไม่มีการคลิกอะไรเลย ตัวobserverไม่ควรถูกเรียก</span>
+<span data-code-lines="3" data-code-annotation="2" data-code-cell="annotated-cell-27">ยกเลิกตัว observer เมื่อตัวแปรคลิกไม่ใช่ “ค่าจริง” (ดู <code>?isTruthy</code>) ถ้าไม่มีการคลิกอะไรเลย ตัวobserverไม่ควรถูกเรียก</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-27" data-code-lines="4">สร้าง Leaflet proxy</span>
+<span data-code-lines="4" data-code-annotation="3" data-code-cell="annotated-cell-27">สร้าง Leaflet proxy</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-27" data-code-lines="5">ล้างเครื่องหมายก่อนหน้า</span>
+<span data-code-lines="5" data-code-annotation="4" data-code-cell="annotated-cell-27">ล้างเครื่องหมายก่อนหน้า</span>
 </dd>
 <dt data-target-cell="annotated-cell-27" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-27" data-code-lines="6">เพิ่มเครื่องหมายใหม่</span>
+<span data-code-lines="6" data-code-annotation="5" data-code-cell="annotated-cell-27">เพิ่มเครื่องหมายใหม่</span>
 </dd>
 </dl>
 </div>
@@ -8231,15 +8222,15 @@ Note
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-28" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-28" data-code-lines="5">สร้าง ID จากพิกัดลองจิจูด/ลองจิจูด เพื่อให้เรารู้ว่าเรากำลังพูดถึงองค์ประกอบตัวไหน</span>
+<span data-code-lines="5" data-code-annotation="1" data-code-cell="annotated-cell-28">สร้าง ID จากพิกัดลองจิจูด/ลองจิจูด เพื่อให้เรารู้ว่าเรากำลังพูดถึงองค์ประกอบตัวไหน</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-28" data-code-lines="7">ส่ง ID ที่สร้างไว้ให้กับเครื่องหมายที่เราเพิ่ม</span>
+<span data-code-lines="7" data-code-annotation="2" data-code-cell="annotated-cell-28">ส่ง ID ที่สร้างไว้ให้กับเครื่องหมายที่เราเพิ่ม</span>
 </dd>
 <dt data-target-cell="annotated-cell-28" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-28" data-code-lines="15">เมื่อคลิกที่เครื่องหมายใหม่อีกครั้ง เราสามารถทราบได้อย่างแน่นอนว่าเราควรลบเครื่องหมายอะไรและไม่จำเป็นต้องลบทั้งหมด</span>
+<span data-code-lines="15" data-code-annotation="3" data-code-cell="annotated-cell-28">เมื่อคลิกที่เครื่องหมายใหม่อีกครั้ง เราสามารถทราบได้อย่างแน่นอนว่าเราควรลบเครื่องหมายอะไรและไม่จำเป็นต้องลบทั้งหมด</span>
 </dd>
 </dl>
 </div>
